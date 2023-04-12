@@ -107,9 +107,24 @@ export default function Staking() {
   }
 
   })  
-    const [myTier2,setTier2]= React.useState<any>(0)
+  
+const { data:dataBonusv2 } = useContractRead({
+	address: '0x32CCA9522b55c8B75Ff042AF27aA97Be6275FcF4',
+	abi: stakingABI,
+	args:[ethAddress],
+	functionName: 'getBonusMultiplier',
+	})
+const { data:dataBonusv1 } = useContractRead({
+	address: '0x32CCA9522b55c8B75Ff042AF27aA97Be6275FcF4',
+	abi: stakingABI,
+	args:[ethAddress],
+	functionName: 'getBonusMultiplier',
+	})
+    const [bonusv2,setBonusv2]= React.useState<any>("0")
 
-  const [myTier,setTier]= React.useState<any>(0)
+  const [bonusv1,setBonusv1]= React.useState<any>("0")
+
+  
   const [nftCount2,setNFTCOUNT2]= React.useState<any>("0")
 
   const [nftCount,setNFTCOUNT]= React.useState<any>("0")
@@ -280,6 +295,7 @@ React.useEffect(()=>{
 		recklesslySetUnpreparedArgs:[dataStakerTokenIdsv2] ,
 	  })
 	}
+
 	if(isSuccessApprove==true){
 		if(dataApprove>=values.amount){
 
@@ -361,17 +377,26 @@ React.useEffect(()=>{
 				setUserInfo(dataUserInfo)  
 	
 			  }
-			  
+			  if(dataBonusv1){ 
+				setBonusv1(dataBonusv1)		
+			   }
+				
+			   if(dataBonusv2){ 
+				setBonusv2(dataBonusv2)
+			}
+				
+
+
 				setNFTCOUNT2(data3v2)
 				setNFTCOUNT(data3v1)
 	
 				  if(data2){ 
-					setRewardsV2(ethers.utils.formatEther(data2.toString()).substring(0,6))
+					setRewardsV1(ethers.utils.formatEther(data2.toString()).substring(0,6))
 	
 				  }
 				  console.log(data2v1)
-				  if(data2v1){          
-						 setRewardsV1(ethers.utils.formatEther(data2v1.toString()).substring(0,6))
+				  if(data2v2){          
+						 setRewardsV2(ethers.utils.formatEther(data2v2.toString()).substring(0,6))
 	
 	
 				  } 
@@ -557,7 +582,8 @@ setValues({ ...values, [prop]:ethers.utils.parseUnits(event.target.value,"ether"
       ctaButton={<div key={"331"}><Button key={"31"} onClick={()=>claimRewardsV1()} isFullWidth text="CLAIM" theme="primary"/></div>}
       description={<Typography key={"911"} color="#5B8DB9" variant="caption14" weight="550">Your Info</Typography>}
       features={[
-        nftCount+" Cooties Owned",
+        nftCount+" Cooties Owned",   
+        bonusv1+" Bonus Multiplier",   
       ]}
       featuresIconColor="#A8AFB7"
       height="606px"
@@ -593,7 +619,8 @@ setValues({ ...values, [prop]:ethers.utils.parseUnits(event.target.value,"ether"
       ctaButton={<div><Button key={"91231"}  onClick={()=>claimRewardsV2()} isFullWidth text="CLAIM" theme="primary"/></div>}
       description={<Typography key={"9167"} color="#5B8DB9" variant="caption14" weight="550">Your Info</Typography>}
       features={[
-        nftCount2+" Cooties Owned",      
+        nftCount2+" Cooties Owned",     
+        bonusv2+"Bonus Multiplier",   
       ]}
       featuresIconColor="#A8AFB7"
       height="606px"
