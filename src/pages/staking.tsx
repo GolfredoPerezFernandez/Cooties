@@ -112,7 +112,7 @@ export default function Staking() {
   })  
   
 const { data:dataBonusv2 } = useContractRead({
-	address: '0x32CCA9522b55c8B75Ff042AF27aA97Be6275FcF4',
+	address: '0xc578E255eC21c2A56A538cc9748d394239c6eC05',
 	abi: stakingABI,
 	args:[ethAddress],
 	functionName: 'getBonusMultiplier',
@@ -381,8 +381,6 @@ React.useEffect(()=>{
 			  if(dataBonusv1){ 
 				setBonusv1(dataBonusv1)		
 			   }
-			   console.log(dataBonusv1)
-			   console.log(dataBonusv2)
 
 			   if(dataBonusv2){ 
 				setBonusv2(dataBonusv2)
@@ -585,7 +583,7 @@ setValues({ ...values, [prop]:ethers.utils.parseUnits(event.target.value,"ether"
       description={<Typography key={"911"} color="#5B8DB9" variant="caption14" weight="550">Your Info</Typography>}
       features={[
         nftCount+" Cooties Owned",   
-        bonusv1+" Bonus Multiplier",   
+        bonusv1.toString().substring(0,1)+"X Bonus Multiplier",   
       ]}
       featuresIconColor="#A8AFB7"
       height="606px"
@@ -622,7 +620,7 @@ setValues({ ...values, [prop]:ethers.utils.parseUnits(event.target.value,"ether"
       description={<Typography key={"9167"} color="#5B8DB9" variant="caption14" weight="550">Your Info</Typography>}
       features={[
         nftCount2+" Cooties Owned",     
-        bonusv2+" Bonus Multiplier",   
+        bonusv2.toString().substring(0,1)+"X Bonus Multiplier",   
       ]}
       featuresIconColor="#A8AFB7"
       height="606px"
