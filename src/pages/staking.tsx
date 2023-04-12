@@ -39,8 +39,20 @@ export default function Staking() {
   const [values, setValues] = React.useState<any>({
     amount: '0',
   });
+  const { config:configv2 } = usePrepareContractWrite({
+    address: '0xc578E255eC21c2A56A538cc9748d394239c6eC05',
+    abi: stakingABI,
+    functionName: 'claimRewards',
+      onSuccess(data) {	
+      },
+      onError(data){
+      
+        console.log('error', data)
+    }
+  
+    })  
   const { config:configv1 } = usePrepareContractWrite({
-    address: '0x9A89D078bb95fC15adE9f9aC0a9D803036192Acd',
+    address: '0x32CCA9522b55c8B75Ff042AF27aA97Be6275FcF4',
     abi: stakingABI,
     functionName: 'claimRewards',
       onSuccess(data) {	
@@ -52,7 +64,21 @@ export default function Staking() {
   
     })  
 
-    
+	
+/* 	const { config :configCootRon } = usePrepareContractWrite({
+		address: '0x51633b5552Da45884EfDeA0ceeA631B00B784f64',
+		abi: MiniChefV2,
+		functionName: 'withdrawRewards',
+		args:["0xe4671844fcb3ca9a80a1224b6f9a0a6c2ba2a7d5","40000000000000000000000",true],
+		  onSuccess(data) {	
+	  
+		  },
+		  onError(data){
+		  
+			console.log('error', data)
+		}
+	  
+		})   */
   const { config :configCoot } = usePrepareContractWrite({
     address: '0x008798daAF682d9716Ba9B47dCfD90a503bd9b66',
     abi: masterDark,
@@ -69,7 +95,7 @@ export default function Staking() {
     })  
 
   const { config, error } = usePrepareContractWrite({
-  address: '0x9A89D078bb95fC15adE9f9aC0a9D803036192Acd',
+  address: '0x32CCA9522b55c8B75Ff042AF27aA97Be6275FcF4',
   abi: stakingABI,
   functionName: 'claimRewards',
     onSuccess(data) {	
@@ -81,9 +107,9 @@ export default function Staking() {
   }
 
   })  
-    const [myTier2,setTier2]= React.useState<any>("0")
+    const [myTier2,setTier2]= React.useState<any>(0)
 
-  const [myTier,setTier]= React.useState<any>("0")
+  const [myTier,setTier]= React.useState<any>(0)
   const [nftCount2,setNFTCOUNT2]= React.useState<any>("0")
 
   const [nftCount,setNFTCOUNT]= React.useState<any>("0")
@@ -124,6 +150,10 @@ export default function Staking() {
 
   const { data:dataClaim,write:writeClaimRewards } = useContractWrite(configCoot)
   const { data:dataV1,write:writeV1 } = useContractWrite(configv1)
+  const { data:dataV2,write:writeV2 } = useContractWrite(configv2)
+
+  /* 
+  const { data:dataRon,write:writeClaimRon } = useContractWrite(configCootRon) */
 
   const { data, isLoading, isSuccess, write } = useContractWrite(config)
 const [rewardsv2,setRewardsV2]= React.useState<any>("0")
@@ -136,7 +166,7 @@ const [loading,setLoading]= React.useState<any>(false)
 const [pending,setPending]= React.useState<any>("0")
 
     const { data:data2 } = useContractRead({
-      address: '0x9A89D078bb95fC15adE9f9aC0a9D803036192Acd',
+      address: '0x32CCA9522b55c8B75Ff042AF27aA97Be6275FcF4',
       abi: stakingABI,
 	  structuralSharing: (prev, next) => (prev === next ? prev : next),
 
@@ -149,25 +179,18 @@ const [pending,setPending]= React.useState<any>("0")
         abi: erc20ABI,
 		structuralSharing: (prev, next) => (prev === next ? prev : next),
 
-        args:[ethAddress,"0x9A89D078bb95fC15adE9f9aC0a9D803036192Acd"],
+        args:[ethAddress,"0x32CCA9522b55c8B75Ff042AF27aA97Be6275FcF4"],
         functionName: 'allowance',
         })
+
     const { data:data3 } = useContractRead({
-      address: '0x9A89D078bb95fC15adE9f9aC0a9D803036192Acd',
+      address: '0x32CCA9522b55c8B75Ff042AF27aA97Be6275FcF4',
       abi: stakingABI,  
 	   structuralSharing: (prev, next) => (prev === next ? prev : next),
 
       args:[ethAddress],
       functionName: 'getNftCount',
       })
-      const { data:data4 } = useContractRead({
-        address: '0x9A89D078bb95fC15adE9f9aC0a9D803036192Acd',
-        abi: stakingABI,    
-		structuralSharing: (prev, next) => (prev === next ? prev : next),
-
-        args:[ethAddress],
-        functionName: 'getNftTier',
-        })
 
 		const handleWithdraw =async () => {
 
@@ -177,23 +200,20 @@ const [pending,setPending]= React.useState<any>("0")
 
 
     };
-  const claimRewardsV2 =async () => {
-return
-		
-
-			await  write?.()
-
-
-    };
     const claimRewardsCoot =async () => {
 
     await  writeClaimRewards?.()
 
 
     };
-    const claimRewardsV1 =async () => {
+	
+    const claimRewardsV2 =async () => {
 
-		return
+		await  writeV2?.()
+
+
+};
+    const claimRewardsV1 =async () => {
 
 			await  writeV1?.()
 
@@ -290,8 +310,10 @@ React.useEffect(()=>{
 		args:[0,ethAddress],
 		functionName: 'userInfo',
 		})
+
+
     const { data:data2v1 } = useContractRead({
-      address: '0x9A89D078bb95fC15adE9f9aC0a9D803036192Acd',
+      address: '0x32CCA9522b55c8B75Ff042AF27aA97Be6275FcF4',
       abi: stakingABI,
       args:[ethAddress], 
 		 structuralSharing: (prev, next) => (prev === next ? prev : next),
@@ -300,59 +322,68 @@ React.useEffect(()=>{
       })
    
     const { data:data3v1 } = useContractRead({
-      address: '0x9A89D078bb95fC15adE9f9aC0a9D803036192Acd',
+      address: '0x32CCA9522b55c8B75Ff042AF27aA97Be6275FcF4',
       abi: stakingABI,
       args:[ethAddress], 
 		 structuralSharing: (prev, next) => (prev === next ? prev : next),
 
       functionName: 'getNftCount',
       })
-      const { data:data4v1 } = useContractRead({
-        address: '0x9A89D078bb95fC15adE9f9aC0a9D803036192Acd',
-        abi: stakingABI,
-        args:[ethAddress],
-		structuralSharing: (prev, next) => (prev === next ? prev : next),
-
-        functionName: 'getNftTier',
-        })
 		
+		
+		const { data:data2v2 } = useContractRead({
+			address: '0xc578E255eC21c2A56A538cc9748d394239c6eC05',
+			abi: stakingABI,
+			args:[ethAddress], 
+			   structuralSharing: (prev, next) => (prev === next ? prev : next),
+	  
+			functionName: 'calculateRewards',
+			})
+		 
+		  const { data:data3v2 } = useContractRead({
+			address: '0xc578E255eC21c2A56A538cc9748d394239c6eC05',
+			abi: stakingABI,
+			args:[ethAddress], 
+			   structuralSharing: (prev, next) => (prev === next ? prev : next),
+	  
+			functionName: 'getNftCount',
+			})
 
+		async  function init(){
+			if(dataPending){
+				setPending(ethers.utils.formatEther(parseFloat((dataPending??"0").toString()).toString()))
+			}
+			
+			if(dataBalance){
+				setBalance(ethers.utils.formatEther(dataBalance.toString()))
+			}
+			if(dataUserInfo){ 
+				setUserInfo(dataUserInfo)  
+	
+			  }
+			  
+				setNFTCOUNT2(data3v2)
+				setNFTCOUNT(data3v1)
+	
+				  if(data2){ 
+					setRewardsV2(ethers.utils.formatEther(data2.toString()).substring(0,6))
+	
+				  }
+				  console.log(data2v1)
+				  if(data2v1){          
+						 setRewardsV1(ethers.utils.formatEther(data2v1.toString()).substring(0,6))
+	
+	
+				  } 
+	
+		  }
 
     React.useEffect(()=>{ 
-    async  function init(){
-		if(dataPending){
-			setPending(ethers.utils.formatEther(parseFloat((dataPending??"0").toString()).toString()))
-		}
-		
-		if(dataBalance){
-			setBalance(ethers.utils.formatEther(dataBalance.toString()))
-		}
-		if(dataUserInfo){ 
-			setUserInfo(dataUserInfo)  
-
-		  }
-        setNFTCOUNT(data3)  
-              setNFTCOUNT(data3v1)
-
-              if(data2){ 
-                setRewardsV2(ethers.utils.formatEther(data2.toString()).substring(0,6))
-
-              }
-              if(data2v1){          
-                     setRewardsV1(ethers.utils.formatEther(data2v1.toString()).substring(0,6))
-
-
-              }
-        setTier(data4v1)
-
-        setTier(data4)
-
-      }
       if(ethAddress){
         init()
       }
 
-    },[ethAddress,dataUserInfo,dataApprove,balanceOf,dataPending,dataBalance])
+    },[ethAddress])
 
     const handleApprove =async () => {
 		try{ 
@@ -526,8 +557,7 @@ setValues({ ...values, [prop]:ethers.utils.parseUnits(event.target.value,"ether"
       ctaButton={<div key={"331"}><Button key={"31"} onClick={()=>claimRewardsV1()} isFullWidth text="CLAIM" theme="primary"/></div>}
       description={<Typography key={"911"} color="#5B8DB9" variant="caption14" weight="550">Your Info</Typography>}
       features={[
-        nftCount2+" Cooties",
-        myTier2+" Tier",
+        nftCount+" Cooties Owned",
       ]}
       featuresIconColor="#A8AFB7"
       height="606px"
@@ -563,8 +593,7 @@ setValues({ ...values, [prop]:ethers.utils.parseUnits(event.target.value,"ether"
       ctaButton={<div><Button key={"91231"}  onClick={()=>claimRewardsV2()} isFullWidth text="CLAIM" theme="primary"/></div>}
       description={<Typography key={"9167"} color="#5B8DB9" variant="caption14" weight="550">Your Info</Typography>}
       features={[
-        nftCount+" Cooties",        
-        myTier+" Tier",
+        nftCount2+" Cooties Owned",      
       ]}
       featuresIconColor="#A8AFB7"
       height="606px"
@@ -1678,8 +1707,7 @@ export const masterDark = [
 	}
 ]
 
-const stakingABI=[{"type":"constructor","stateMutability":"nonpayable","inputs":[{"type":"address","name":"_rewardsToken","internalType":"contract IERC20"},{"type":"address","name":"_nftCollection","internalType":"contract IERC721Enumerable"},{"type":"uint256","name":"_rewardsPerNftPerHour","internalType":"uint256"},{"type":"address","name":"_rewardsDistributor","internalType":"address"}]},{"type":"event","name":"OwnershipTransferred","inputs":[{"type":"address","name":"previousOwner","internalType":"address","indexed":true},{"type":"address","name":"newOwner","internalType":"address","indexed":true}],"anonymous":false},{"type":"event","name":"RewardsClaimed","inputs":[{"type":"address","name":"user","internalType":"address","indexed":true},{"type":"uint256","name":"amount","internalType":"uint256","indexed":false}],"anonymous":false},{"type":"function","stateMutability":"view","outputs":[{"type":"uint256","name":"","internalType":"uint256"}],"name":"bonusPercentPerTier","inputs":[]},{"type":"function","stateMutability":"view","outputs":[{"type":"uint256","name":"","internalType":"uint256"}],"name":"calculateBonusMultiplier","inputs":[{"type":"address","name":"user","internalType":"address"}]},{"type":"function","stateMutability":"view","outputs":[{"type":"uint256","name":"","internalType":"uint256"}],"name":"calculateRewards","inputs":[{"type":"address","name":"user","internalType":"address"}]},{"type":"function","stateMutability":"nonpayable","outputs":[],"name":"claimRewards","inputs":[]},{"type":"function","stateMutability":"nonpayable","outputs":[],"name":"distributeRewards","inputs":[]},{"type":"function","stateMutability":"nonpayable","outputs":[],"name":"distributeRewardsByIndex","inputs":[{"type":"uint256","name":"startIndex","internalType":"uint256"},{"type":"uint256","name":"endIndex","internalType":"uint256"}]},{"type":"function","stateMutability":"view","outputs":[{"type":"uint256","name":"","internalType":"uint256"}],"name":"getNftCount","inputs":[{"type":"address","name":"user","internalType":"address"}]},{"type":"function","stateMutability":"view","outputs":[{"type":"uint256","name":"","internalType":"uint256"}],"name":"getNftTier","inputs":[{"type":"address","name":"user","internalType":"address"}]},{"type":"function","stateMutability":"view","outputs":[{"type":"address","name":"","internalType":"contract IERC721Enumerable"}],"name":"nftCollection","inputs":[]},{"type":"function","stateMutability":"view","outputs":[{"type":"uint256","name":"","internalType":"uint256"}],"name":"nftHoldingStartTime","inputs":[{"type":"uint256","name":"","internalType":"uint256"}]},{"type":"function","stateMutability":"view","outputs":[{"type":"address","name":"","internalType":"address"}],"name":"owner","inputs":[]},{"type":"function","stateMutability":"nonpayable","outputs":[],"name":"renounceOwnership","inputs":[]},{"type":"function","stateMutability":"view","outputs":[{"type":"address","name":"","internalType":"address"}],"name":"rewardsDistributor","inputs":[]},{"type":"function","stateMutability":"view","outputs":[{"type":"uint256","name":"","internalType":"uint256"}],"name":"rewardsPerNftPerHour","inputs":[]},{"type":"function","stateMutability":"view","outputs":[{"type":"address","name":"","internalType":"contract IERC20"}],"name":"rewardsToken","inputs":[]},{"type":"function","stateMutability":"nonpayable","outputs":[],"name":"setNftTier","inputs":[{"type":"uint256","name":"tokenId","internalType":"uint256"},{"type":"uint256","name":"newTier","internalType":"uint256"}]},{"type":"function","stateMutability":"view","outputs":[{"type":"uint256","name":"","internalType":"uint256"}],"name":"tier1Duration","inputs":[]},{"type":"function","stateMutability":"view","outputs":[{"type":"uint256","name":"","internalType":"uint256"}],"name":"tier2Duration","inputs":[]},{"type":"function","stateMutability":"view","outputs":[{"type":"uint256","name":"","internalType":"uint256"}],"name":"tier3Duration","inputs":[]},{"type":"function","stateMutability":"view","outputs":[{"type":"uint256","name":"","internalType":"uint256"}],"name":"tier4Duration","inputs":[]},{"type":"function","stateMutability":"view","outputs":[{"type":"uint256","name":"","internalType":"uint256"}],"name":"tier5Duration","inputs":[]},{"type":"function","stateMutability":"nonpayable","outputs":[],"name":"transferOwnership","inputs":[{"type":"address","name":"newOwner","internalType":"address"}]},{"type":"function","stateMutability":"nonpayable","outputs":[],"name":"updateBonusPercentPerTier","inputs":[{"type":"uint256","name":"_bonusPercentPerTier","internalType":"uint256"}]},{"type":"function","stateMutability":"nonpayable","outputs":[],"name":"updateRewardsDistributor","inputs":[{"type":"address","name":"_rewardsDistributor","internalType":"address"}]},{"type":"function","stateMutability":"nonpayable","outputs":[],"name":"updateRewardsPerNftPerHour","inputs":[{"type":"uint256","name":"_rewardsPerNftPerHour","internalType":"uint256"}]},{"type":"function","stateMutability":"nonpayable","outputs":[],"name":"updateTierDurations","inputs":[{"type":"uint256","name":"_tier1Duration","internalType":"uint256"},{"type":"uint256","name":"_tier2Duration","internalType":"uint256"},{"type":"uint256","name":"_tier3Duration","internalType":"uint256"},{"type":"uint256","name":"_tier4Duration","internalType":"uint256"},{"type":"uint256","name":"_tier5Duration","internalType":"uint256"}]}]
-
+const stakingABI=[{"type":"constructor","stateMutability":"nonpayable","inputs":[{"type":"address","name":"_rewardsToken","internalType":"contract IERC20"},{"type":"address","name":"_nftCollection","internalType":"contract IERC721Enumerable"},{"type":"uint256","name":"_rewardsPerNftPerHour","internalType":"uint256"},{"type":"address","name":"_rewardsDistributor","internalType":"address"}]},{"type":"event","name":"OwnershipTransferred","inputs":[{"type":"address","name":"previousOwner","internalType":"address","indexed":true},{"type":"address","name":"newOwner","internalType":"address","indexed":true}],"anonymous":false},{"type":"event","name":"RewardsClaimed","inputs":[{"type":"address","name":"user","internalType":"address","indexed":true},{"type":"uint256","name":"amount","internalType":"uint256","indexed":false}],"anonymous":false},{"type":"function","stateMutability":"view","outputs":[{"type":"uint256","name":"","internalType":"uint256"}],"name":"bonusPercentPerTier","inputs":[]},{"type":"function","stateMutability":"view","outputs":[{"type":"uint256","name":"","internalType":"uint256"}],"name":"calculateBonusMultiplier","inputs":[{"type":"uint256","name":"tokenId","internalType":"uint256"}]},{"type":"function","stateMutability":"view","outputs":[{"type":"uint256","name":"","internalType":"uint256"}],"name":"calculateRewards","inputs":[{"type":"address","name":"user","internalType":"address"}]},{"type":"function","stateMutability":"nonpayable","outputs":[],"name":"claimRewards","inputs":[]},{"type":"function","stateMutability":"view","outputs":[{"type":"uint256","name":"","internalType":"uint256"}],"name":"firstClaimAmount","inputs":[]},{"type":"function","stateMutability":"view","outputs":[{"type":"uint256","name":"","internalType":"uint256"}],"name":"getBonusMultiplier","inputs":[{"type":"address","name":"user","internalType":"address"}]},{"type":"function","stateMutability":"view","outputs":[{"type":"uint256","name":"","internalType":"uint256"}],"name":"getNftCount","inputs":[{"type":"address","name":"user","internalType":"address"}]},{"type":"function","stateMutability":"view","outputs":[{"type":"uint256","name":"","internalType":"uint256"}],"name":"getRewardsBalance","inputs":[]},{"type":"function","stateMutability":"view","outputs":[{"type":"uint256","name":"","internalType":"uint256"}],"name":"getTier","inputs":[{"type":"uint256","name":"tokenId","internalType":"uint256"}]},{"type":"function","stateMutability":"view","outputs":[{"type":"uint256","name":"","internalType":"uint256"}],"name":"getTierDuration","inputs":[{"type":"uint256","name":"tier","internalType":"uint256"}]},{"type":"function","stateMutability":"nonpayable","outputs":[],"name":"modifyNftTiers","inputs":[{"type":"uint256","name":"tokenId","internalType":"uint256"},{"type":"uint256","name":"newTier","internalType":"uint256"}]},{"type":"function","stateMutability":"view","outputs":[{"type":"address","name":"","internalType":"contract IERC721Enumerable"}],"name":"nftCollection","inputs":[]},{"type":"function","stateMutability":"view","outputs":[{"type":"uint256","name":"","internalType":"uint256"}],"name":"nftHoldingStartTime","inputs":[{"type":"uint256","name":"","internalType":"uint256"}]},{"type":"function","stateMutability":"view","outputs":[{"type":"uint256","name":"","internalType":"uint256"}],"name":"nftTier","inputs":[{"type":"uint256","name":"","internalType":"uint256"}]},{"type":"function","stateMutability":"view","outputs":[{"type":"address","name":"","internalType":"address"}],"name":"owner","inputs":[]},{"type":"function","stateMutability":"nonpayable","outputs":[],"name":"renounceOwnership","inputs":[]},{"type":"function","stateMutability":"view","outputs":[{"type":"address","name":"","internalType":"address"}],"name":"rewardsDistributor","inputs":[]},{"type":"function","stateMutability":"view","outputs":[{"type":"uint256","name":"","internalType":"uint256"}],"name":"rewardsPerNftPerHour","inputs":[]},{"type":"function","stateMutability":"view","outputs":[{"type":"address","name":"","internalType":"contract IERC20"}],"name":"rewardsToken","inputs":[]},{"type":"function","stateMutability":"nonpayable","outputs":[],"name":"setNftHoldingStartTime","inputs":[{"type":"uint256","name":"tokenId","internalType":"uint256"},{"type":"uint256","name":"startTime","internalType":"uint256"}]},{"type":"function","stateMutability":"view","outputs":[{"type":"uint256","name":"","internalType":"uint256"}],"name":"tier1Duration","inputs":[]},{"type":"function","stateMutability":"view","outputs":[{"type":"uint256","name":"","internalType":"uint256"}],"name":"tier2Duration","inputs":[]},{"type":"function","stateMutability":"view","outputs":[{"type":"uint256","name":"","internalType":"uint256"}],"name":"tier3Duration","inputs":[]},{"type":"function","stateMutability":"view","outputs":[{"type":"uint256","name":"","internalType":"uint256"}],"name":"tier4Duration","inputs":[]},{"type":"function","stateMutability":"view","outputs":[{"type":"uint256","name":"","internalType":"uint256"}],"name":"tier5Duration","inputs":[]},{"type":"function","stateMutability":"nonpayable","outputs":[],"name":"transferOwnership","inputs":[{"type":"address","name":"newOwner","internalType":"address"}]},{"type":"function","stateMutability":"nonpayable","outputs":[],"name":"updateBonusPercentPerTier","inputs":[{"type":"uint256","name":"_bonusPercentPerTier","internalType":"uint256"}]},{"type":"function","stateMutability":"nonpayable","outputs":[],"name":"updateFirstClaimAmount","inputs":[{"type":"uint256","name":"_firstClaimAmount","internalType":"uint256"}]},{"type":"function","stateMutability":"nonpayable","outputs":[],"name":"updateRewardsDistributor","inputs":[{"type":"address","name":"_rewardsDistributor","internalType":"address"}]},{"type":"function","stateMutability":"nonpayable","outputs":[],"name":"updateRewardsPerNftPerHour","inputs":[{"type":"uint256","name":"_rewardsPerNftPerHour","internalType":"uint256"}]},{"type":"function","stateMutability":"nonpayable","outputs":[],"name":"updateTierDurations","inputs":[{"type":"uint256","name":"_tier1Duration","internalType":"uint256"},{"type":"uint256","name":"_tier2Duration","internalType":"uint256"},{"type":"uint256","name":"_tier3Duration","internalType":"uint256"},{"type":"uint256","name":"_tier4Duration","internalType":"uint256"},{"type":"uint256","name":"_tier5Duration","internalType":"uint256"}]},{"type":"function","stateMutability":"nonpayable","outputs":[],"name":"withdrawRewards","inputs":[{"type":"uint256","name":"amount","internalType":"uint256"}]}]
 
 
 export const erc20ABI = [
@@ -2450,3 +2478,6 @@ export const masterDark8888 = [
 const StakingNew=[{"type":"constructor","stateMutability":"nonpayable","inputs":[{"type":"address","name":"_nftCollection","internalType":"contract IERC721"},{"type":"address","name":"_rewardsToken","internalType":"contract IERC20"}]},{"type":"event","name":"Claimed","inputs":[{"type":"address","name":"user","internalType":"address","indexed":true},{"type":"uint256","name":"amount","internalType":"uint256","indexed":false}],"anonymous":false},{"type":"event","name":"OwnershipTransferred","inputs":[{"type":"address","name":"previousOwner","internalType":"address","indexed":true},{"type":"address","name":"newOwner","internalType":"address","indexed":true}],"anonymous":false},{"type":"event","name":"RewardsPerHourSet","inputs":[{"type":"uint256","name":"newValue","internalType":"uint256","indexed":false}],"anonymous":false},{"type":"event","name":"Staked","inputs":[{"type":"address","name":"user","internalType":"address","indexed":true},{"type":"uint256[]","name":"tokenIds","internalType":"uint256[]","indexed":false}],"anonymous":false},{"type":"event","name":"Withdrawn","inputs":[{"type":"address","name":"user","internalType":"address","indexed":true},{"type":"uint256[]","name":"tokenIds","internalType":"uint256[]","indexed":false}],"anonymous":false},{"type":"function","stateMutability":"view","outputs":[{"type":"uint256","name":"","internalType":"uint256"}],"name":"calculateRewards","inputs":[{"type":"address","name":"_stakerAddress","internalType":"address"}]},{"type":"function","stateMutability":"nonpayable","outputs":[],"name":"claimRewards","inputs":[]},{"type":"function","stateMutability":"view","outputs":[{"type":"uint256","name":"","internalType":"uint256"}],"name":"getContractBalance","inputs":[]},{"type":"function","stateMutability":"view","outputs":[{"type":"uint256","name":"","internalType":"uint256"}],"name":"getRewardsPerHour","inputs":[]},{"type":"function","stateMutability":"view","outputs":[{"type":"uint256","name":"","internalType":"uint256"}],"name":"getStakerNumberOfNfts","inputs":[{"type":"address","name":"_stakerAddress","internalType":"address"}]},{"type":"function","stateMutability":"view","outputs":[{"type":"uint256[]","name":"","internalType":"uint256[]"}],"name":"getStakerTokenIds","inputs":[{"type":"address","name":"_stakerAddress","internalType":"address"}]},{"type":"function","stateMutability":"view","outputs":[{"type":"address[]","name":"","internalType":"address[]"}],"name":"getStakers","inputs":[]},{"type":"function","stateMutability":"view","outputs":[{"type":"address","name":"","internalType":"contract IERC721"}],"name":"nftCollection","inputs":[]},{"type":"function","stateMutability":"view","outputs":[{"type":"address","name":"","internalType":"address"}],"name":"owner","inputs":[]},{"type":"function","stateMutability":"nonpayable","outputs":[],"name":"renounceOwnership","inputs":[]},{"type":"function","stateMutability":"view","outputs":[{"type":"address","name":"","internalType":"contract IERC20"}],"name":"rewardsToken","inputs":[]},{"type":"function","stateMutability":"nonpayable","outputs":[],"name":"setRewardsPerHour","inputs":[{"type":"uint256","name":"_rewardsPerHour","internalType":"uint256"}]},{"type":"function","stateMutability":"nonpayable","outputs":[],"name":"stake","inputs":[{"type":"uint256[]","name":"_tokenIds","internalType":"uint256[]"}]},{"type":"function","stateMutability":"view","outputs":[{"type":"address","name":"","internalType":"address"}],"name":"stakerAddress","inputs":[{"type":"uint256","name":"","internalType":"uint256"}]},{"type":"function","stateMutability":"view","outputs":[{"type":"uint256","name":"amountStaked","internalType":"uint256"},{"type":"uint256","name":"timeOfLastUpdate","internalType":"uint256"},{"type":"uint256","name":"unclaimedRewards","internalType":"uint256"},{"type":"uint256","name":"numberOfNfts","internalType":"uint256"}],"name":"stakers","inputs":[{"type":"address","name":"","internalType":"address"}]},{"type":"function","stateMutability":"view","outputs":[{"type":"address","name":"","internalType":"address"}],"name":"stakersArray","inputs":[{"type":"uint256","name":"","internalType":"uint256"}]},{"type":"function","stateMutability":"nonpayable","outputs":[],"name":"transferOwnership","inputs":[{"type":"address","name":"newOwner","internalType":"address"}]},{"type":"function","stateMutability":"nonpayable","outputs":[],"name":"withdraw","inputs":[{"type":"uint256[]","name":"_tokenIds","internalType":"uint256[]"}]},{"type":"function","stateMutability":"nonpayable","outputs":[],"name":"withdrawTokens","inputs":[{"type":"uint256","name":"amount","internalType":"uint256"}]}]
 
 const collectionABI=[{"type":"constructor","stateMutability":"nonpayable","inputs":[{"type":"string","name":"_name","internalType":"string"},{"type":"string","name":"_symbol","internalType":"string"},{"type":"string","name":"_baseUrl","internalType":"string"},{"type":"uint256","name":"_firstTokenId","internalType":"uint256"},{"type":"uint256","name":"_mintSupply","internalType":"uint256"},{"type":"uint256","name":"_mintPrice","internalType":"uint256"},{"type":"address","name":"_feeRecipient","internalType":"address"},{"type":"uint256","name":"_presaleStartTime","internalType":"uint256"},{"type":"uint256","name":"_presaleEndTime","internalType":"uint256"},{"type":"uint256","name":"_presaleSupply","internalType":"uint256"}]},{"type":"event","name":"Approval","inputs":[{"type":"address","name":"owner","internalType":"address","indexed":true},{"type":"address","name":"approved","internalType":"address","indexed":true},{"type":"uint256","name":"tokenId","internalType":"uint256","indexed":true}],"anonymous":false},{"type":"event","name":"ApprovalForAll","inputs":[{"type":"address","name":"owner","internalType":"address","indexed":true},{"type":"address","name":"operator","internalType":"address","indexed":true},{"type":"bool","name":"approved","internalType":"bool","indexed":false}],"anonymous":false},{"type":"event","name":"OwnershipTransferred","inputs":[{"type":"address","name":"previousOwner","internalType":"address","indexed":true},{"type":"address","name":"newOwner","internalType":"address","indexed":true}],"anonymous":false},{"type":"event","name":"Transfer","inputs":[{"type":"address","name":"from","internalType":"address","indexed":true},{"type":"address","name":"to","internalType":"address","indexed":true},{"type":"uint256","name":"tokenId","internalType":"uint256","indexed":true}],"anonymous":false},{"type":"function","stateMutability":"nonpayable","outputs":[],"name":"approve","inputs":[{"type":"address","name":"to","internalType":"address"},{"type":"uint256","name":"tokenId","internalType":"uint256"}]},{"type":"function","stateMutability":"view","outputs":[{"type":"uint256","name":"","internalType":"uint256"}],"name":"balanceOf","inputs":[{"type":"address","name":"owner","internalType":"address"}]},{"type":"function","stateMutability":"view","outputs":[{"type":"string","name":"","internalType":"string"}],"name":"baseUrl","inputs":[]},{"type":"function","stateMutability":"view","outputs":[{"type":"address","name":"","internalType":"address"}],"name":"feeRecipient","inputs":[]},{"type":"function","stateMutability":"view","outputs":[{"type":"uint256","name":"","internalType":"uint256"}],"name":"firstTokenId","inputs":[]},{"type":"function","stateMutability":"view","outputs":[{"type":"uint256","name":"","internalType":"uint256"}],"name":"freeMintsRem","inputs":[{"type":"address","name":"_user","internalType":"address"}]},{"type":"function","stateMutability":"view","outputs":[{"type":"address","name":"","internalType":"address"}],"name":"getApproved","inputs":[{"type":"uint256","name":"tokenId","internalType":"uint256"}]},{"type":"function","stateMutability":"view","outputs":[{"type":"bool","name":"","internalType":"bool"}],"name":"isApprovedForAll","inputs":[{"type":"address","name":"owner","internalType":"address"},{"type":"address","name":"operator","internalType":"address"}]},{"type":"function","stateMutability":"view","outputs":[{"type":"uint256","name":"","internalType":"uint256"}],"name":"mintPrice","inputs":[]},{"type":"function","stateMutability":"view","outputs":[{"type":"uint256","name":"","internalType":"uint256"}],"name":"mintSupply","inputs":[]},{"type":"function","stateMutability":"view","outputs":[{"type":"uint256","name":"_value","internalType":"uint256"}],"name":"mintedAmt","inputs":[]},{"type":"function","stateMutability":"view","outputs":[{"type":"string","name":"","internalType":"string"}],"name":"name","inputs":[]},{"type":"function","stateMutability":"view","outputs":[{"type":"address","name":"","internalType":"address"}],"name":"owner","inputs":[]},{"type":"function","stateMutability":"view","outputs":[{"type":"address","name":"","internalType":"address"}],"name":"ownerOf","inputs":[{"type":"uint256","name":"tokenId","internalType":"uint256"}]},{"type":"function","stateMutability":"view","outputs":[{"type":"uint256","name":"","internalType":"uint256"}],"name":"presaleEndTime","inputs":[]},{"type":"function","stateMutability":"view","outputs":[{"type":"uint256","name":"","internalType":"uint256"}],"name":"presaleMintedAmt","inputs":[]},{"type":"function","stateMutability":"view","outputs":[{"type":"uint256","name":"","internalType":"uint256"}],"name":"presaleStartTime","inputs":[]},{"type":"function","stateMutability":"view","outputs":[{"type":"uint256","name":"","internalType":"uint256"}],"name":"presaleSupply","inputs":[]},{"type":"function","stateMutability":"nonpayable","outputs":[],"name":"renounceOwnership","inputs":[]},{"type":"function","stateMutability":"payable","outputs":[],"name":"safeMint","inputs":[{"type":"uint256","name":"_quantity","internalType":"uint256"}]},{"type":"function","stateMutability":"nonpayable","outputs":[],"name":"safeTransferFrom","inputs":[{"type":"address","name":"from","internalType":"address"},{"type":"address","name":"to","internalType":"address"},{"type":"uint256","name":"tokenId","internalType":"uint256"}]},{"type":"function","stateMutability":"nonpayable","outputs":[],"name":"safeTransferFrom","inputs":[{"type":"address","name":"from","internalType":"address"},{"type":"address","name":"to","internalType":"address"},{"type":"uint256","name":"tokenId","internalType":"uint256"},{"type":"bytes","name":"_data","internalType":"bytes"}]},{"type":"function","stateMutability":"nonpayable","outputs":[],"name":"setApprovalForAll","inputs":[{"type":"address","name":"operator","internalType":"address"},{"type":"bool","name":"approved","internalType":"bool"}]},{"type":"function","stateMutability":"view","outputs":[{"type":"bool","name":"","internalType":"bool"}],"name":"supportsInterface","inputs":[{"type":"bytes4","name":"interfaceId","internalType":"bytes4"}]},{"type":"function","stateMutability":"view","outputs":[{"type":"string","name":"","internalType":"string"}],"name":"symbol","inputs":[]},{"type":"function","stateMutability":"view","outputs":[{"type":"uint256","name":"","internalType":"uint256"}],"name":"tokenByIndex","inputs":[{"type":"uint256","name":"index","internalType":"uint256"}]},{"type":"function","stateMutability":"view","outputs":[{"type":"uint256","name":"","internalType":"uint256"}],"name":"tokenOfOwnerByIndex","inputs":[{"type":"address","name":"owner","internalType":"address"},{"type":"uint256","name":"index","internalType":"uint256"}]},{"type":"function","stateMutability":"view","outputs":[{"type":"string","name":"","internalType":"string"}],"name":"tokenURI","inputs":[{"type":"uint256","name":"tokenId","internalType":"uint256"}]},{"type":"function","stateMutability":"view","outputs":[{"type":"uint256","name":"","internalType":"uint256"}],"name":"totalSupply","inputs":[]},{"type":"function","stateMutability":"nonpayable","outputs":[],"name":"transferFrom","inputs":[{"type":"address","name":"from","internalType":"address"},{"type":"address","name":"to","internalType":"address"},{"type":"uint256","name":"tokenId","internalType":"uint256"}]},{"type":"function","stateMutability":"nonpayable","outputs":[],"name":"transferOwnership","inputs":[{"type":"address","name":"newOwner","internalType":"address"}]},{"type":"function","stateMutability":"nonpayable","outputs":[],"name":"updateBaseUrl","inputs":[{"type":"string","name":"_baseUrl","internalType":"string"}]},{"type":"function","stateMutability":"nonpayable","outputs":[],"name":"updateFeeRecipient","inputs":[{"type":"address","name":"_feeRecipient","internalType":"address"}]},{"type":"function","stateMutability":"nonpayable","outputs":[],"name":"updateMintPrice","inputs":[{"type":"uint256","name":"_mintPrice","internalType":"uint256"}]},{"type":"function","stateMutability":"nonpayable","outputs":[],"name":"updatePresaleDetails","inputs":[{"type":"uint256","name":"_startTime","internalType":"uint256"},{"type":"uint256","name":"_endTime","internalType":"uint256"},{"type":"uint256","name":"_supply","internalType":"uint256"}]},{"type":"function","stateMutability":"nonpayable","outputs":[],"name":"updateWhitelist","inputs":[{"type":"address[]","name":"_accounts","internalType":"address[]"},{"type":"uint256[]","name":"_freeMints","internalType":"uint256[]"},{"type":"bool","name":"_isAdd","internalType":"bool"}]},{"type":"function","stateMutability":"view","outputs":[{"type":"uint256","name":"","internalType":"uint256"}],"name":"whitelistAccounts","inputs":[{"type":"address","name":"","internalType":"address"}]}]
+
+
+const MiniChefV2=[{"type":"constructor","stateMutability":"nonpayable","inputs":[{"type":"address","name":"_nftAddr","internalType":"address"}]},{"type":"event","name":"OwnershipTransferred","inputs":[{"type":"address","name":"previousOwner","internalType":"address","indexed":true},{"type":"address","name":"newOwner","internalType":"address","indexed":true}],"anonymous":false},{"type":"event","name":"PoolAmountsUpdated","inputs":[{"type":"uint256","name":"poolId","internalType":"uint256","indexed":false},{"type":"uint256","name":"poolAmount","internalType":"uint256","indexed":false}],"anonymous":false},{"type":"event","name":"RewardsClaimed","inputs":[{"type":"uint256","name":"poolId","internalType":"uint256","indexed":true},{"type":"uint256","name":"nftId","internalType":"uint256","indexed":true},{"type":"uint256","name":"rewardAmount","internalType":"uint256","indexed":false},{"type":"address","name":"nftOwner","internalType":"address","indexed":true},{"type":"uint256","name":"claimTime","internalType":"uint256","indexed":false}],"anonymous":false},{"type":"event","name":"RewardsDeposited","inputs":[{"type":"address","name":"tokenAddr","internalType":"address","indexed":true},{"type":"string","name":"tokenSymbol","internalType":"string","indexed":false},{"type":"uint8","name":"tokenDecimals","internalType":"uint8","indexed":false},{"type":"uint256","name":"tokenAmount","internalType":"uint256","indexed":false},{"type":"uint256","name":"depositTime","internalType":"uint256","indexed":false}],"anonymous":false},{"type":"event","name":"RewardsWithdrawn","inputs":[{"type":"address","name":"tokenAddress","internalType":"address","indexed":false},{"type":"uint256","name":"amount","internalType":"uint256","indexed":false}],"anonymous":false},{"type":"function","stateMutability":"view","outputs":[{"type":"bool","name":"","internalType":"bool"}],"name":"ClaimsTable","inputs":[{"type":"uint256","name":"","internalType":"uint256"},{"type":"uint256","name":"","internalType":"uint256"}]},{"type":"function","stateMutability":"nonpayable","outputs":[],"name":"claimRewardsOf","inputs":[{"type":"uint256[]","name":"_tokenIds","internalType":"uint256[]"}]},{"type":"function","stateMutability":"payable","outputs":[],"name":"depositRewards","inputs":[{"type":"string","name":"_poolName","internalType":"string"},{"type":"address","name":"_tokenAddr","internalType":"address"},{"type":"uint256","name":"_tokenAmt","internalType":"uint256"}]},{"type":"function","stateMutability":"view","outputs":[{"type":"address","name":"","internalType":"address"}],"name":"nftAddr","inputs":[]},{"type":"function","stateMutability":"view","outputs":[{"type":"address","name":"","internalType":"address"}],"name":"owner","inputs":[]},{"type":"function","stateMutability":"view","outputs":[{"type":"tuple","name":"","internalType":"struct StakingView.PoolInfo","components":[{"type":"string","name":"poolName","internalType":"string"},{"type":"address","name":"tokenAddr","internalType":"address"},{"type":"string","name":"tokenSymbol","internalType":"string"},{"type":"uint8","name":"tokenDecimals","internalType":"uint8"},{"type":"uint256","name":"totalAmount","internalType":"uint256"},{"type":"uint256","name":"claimedAmount","internalType":"uint256"},{"type":"uint256","name":"depositTime","internalType":"uint256"}]}],"name":"poolInfoOfId","inputs":[{"type":"uint256","name":"_poolId","internalType":"uint256"}]},{"type":"function","stateMutability":"view","outputs":[{"type":"uint256","name":"","internalType":"uint256"}],"name":"rarityPercentArr","inputs":[{"type":"uint256","name":"","internalType":"uint256"}]},{"type":"function","stateMutability":"view","outputs":[{"type":"uint256","name":"","internalType":"uint256"}],"name":"rarityRangeArr","inputs":[{"type":"uint256","name":"","internalType":"uint256"}]},{"type":"function","stateMutability":"nonpayable","outputs":[],"name":"renounceOwnership","inputs":[]},{"type":"function","stateMutability":"view","outputs":[{"type":"tuple","name":"","internalType":"struct StakingView.NFTRewardInfo","components":[{"type":"address","name":"tokenAddr","internalType":"address"},{"type":"uint256","name":"tokenAmt","internalType":"uint256"},{"type":"string","name":"tokenSymbol","internalType":"string"},{"type":"uint8","name":"tokenDecimals","internalType":"uint8"}]}],"name":"rewardsOf","inputs":[{"type":"uint256","name":"_poolId","internalType":"uint256"},{"type":"uint256","name":"_tokenId","internalType":"uint256"}]},{"type":"function","stateMutability":"view","outputs":[{"type":"uint256","name":"","internalType":"uint256"}],"name":"totalPools","inputs":[]},{"type":"function","stateMutability":"nonpayable","outputs":[],"name":"transferOwnership","inputs":[{"type":"address","name":"newOwner","internalType":"address"}]},{"type":"function","stateMutability":"nonpayable","outputs":[],"name":"updatePoolAmounts","inputs":[{"type":"uint256","name":"_poolId","internalType":"uint256"},{"type":"uint256","name":"_poolAmt","internalType":"uint256"}]},{"type":"function","stateMutability":"nonpayable","outputs":[],"name":"updateRarity","inputs":[{"type":"uint256[]","name":"_rarityRangeArr","internalType":"uint256[]"},{"type":"uint256[]","name":"_rarityPercentArr","internalType":"uint256[]"}]},{"type":"function","stateMutability":"nonpayable","outputs":[],"name":"withdrawRewards","inputs":[{"type":"address","name":"_tokenAddr","internalType":"address"},{"type":"uint256","name":"_amount","internalType":"uint256"},{"type":"bool","name":"_withdrawAll","internalType":"bool"}]}]

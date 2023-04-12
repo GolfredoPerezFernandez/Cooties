@@ -258,7 +258,7 @@ export default function Page() {
     className="vertical-timeline-element--work"
     contentStyle={{ background: '#161A42', color: '#fff' }}
     contentArrowStyle={{ borderRight: '7px solid  #161A42' }}
-    date="2022"
+    date="2021"
     iconStyle={{ background: '#161A42', color: '#fff' }}
     icon={<AutoAwesomeIcon />}
   >
@@ -267,7 +267,7 @@ export default function Page() {
   </VerticalTimelineElement>
   <VerticalTimelineElement
     className="vertical-timeline-element--work"
-    date="2022"
+    date="2021"
     contentStyle={{ background: '#161A42', color: '#fff' }}
 
     iconStyle={{ background: '#161A42', color: '#fff' }}
@@ -291,7 +291,7 @@ export default function Page() {
   </VerticalTimelineElement>
   <VerticalTimelineElement
     className="vertical-timeline-element--work"
-    date="2006 - 2008"
+    date="2022"
     contentStyle={{ background: '#161A42', color: '#fff' }}
 
     iconStyle={{ background: '#161A42', color: '#fff' }}
