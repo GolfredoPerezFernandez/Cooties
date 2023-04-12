@@ -42,6 +42,7 @@ export default function Staking() {
   const { config:configv2 } = usePrepareContractWrite({
     address: '0xc578E255eC21c2A56A538cc9748d394239c6eC05',
     abi: stakingABI,
+	enabled:false,
     functionName: 'claimRewards',
       onSuccess(data) {	
       },
@@ -54,6 +55,8 @@ export default function Staking() {
   const { config:configv1 } = usePrepareContractWrite({
     address: '0x32CCA9522b55c8B75Ff042AF27aA97Be6275FcF4',
     abi: stakingABI,
+	
+	enabled:false,
     functionName: 'claimRewards',
       onSuccess(data) {	
       },
@@ -201,7 +204,6 @@ const [pending,setPending]= React.useState<any>("0")
     const { data:data3 } = useContractRead({
       address: '0x32CCA9522b55c8B75Ff042AF27aA97Be6275FcF4',
       abi: stakingABI,  
-	   structuralSharing: (prev, next) => (prev === next ? prev : next),
 
       args:[ethAddress],
       functionName: 'getNftCount',
@@ -240,7 +242,6 @@ const [pending,setPending]= React.useState<any>("0")
 		abi: erc20ABI,
 		watch:true,
 		args:["0x008798daAF682d9716Ba9B47dCfD90a503bd9b66"],   
-		 structuralSharing: (prev, next) => (prev === next ? prev : next),
 
 		functionName: 'balanceOf',
 		})
@@ -380,7 +381,9 @@ React.useEffect(()=>{
 			  if(dataBonusv1){ 
 				setBonusv1(dataBonusv1)		
 			   }
-				
+			   console.log(dataBonusv1)
+			   console.log(dataBonusv2)
+
 			   if(dataBonusv2){ 
 				setBonusv2(dataBonusv2)
 			}
@@ -391,10 +394,9 @@ React.useEffect(()=>{
 				setNFTCOUNT(data3v1)
 	
 				  if(data2){ 
-					setRewardsV1(ethers.utils.formatEther(data2.toString()).substring(0,6))
+					setRewardsV1(ethers.utils.formatEther(data2v1.toString()).substring(0,6))
 	
 				  }
-				  console.log(data2v1)
 				  if(data2v2){          
 						 setRewardsV2(ethers.utils.formatEther(data2v2.toString()).substring(0,6))
 	
@@ -620,7 +622,7 @@ setValues({ ...values, [prop]:ethers.utils.parseUnits(event.target.value,"ether"
       description={<Typography key={"9167"} color="#5B8DB9" variant="caption14" weight="550">Your Info</Typography>}
       features={[
         nftCount2+" Cooties Owned",     
-        bonusv2+"Bonus Multiplier",   
+        bonusv2+" Bonus Multiplier",   
       ]}
       featuresIconColor="#A8AFB7"
       height="606px"
