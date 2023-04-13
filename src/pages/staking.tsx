@@ -386,8 +386,8 @@ React.useEffect(()=>{
 	const [nftCount2,setNFTCOUNT2]= React.useState<any>("0")
   
 	const [nftCount,setNFTCOUNT]= React.useState<any>("0")
-  const [rewardsv2,setRewardsV2]= React.useState<any>(ethers.utils.formatEther(data2v2.toString()).substring(0,6))
-  const [rewardsv1,setRewardsV1]= React.useState<any>(ethers.utils.formatEther(data2v1.toString()).substring(0,6))
+  const [rewardsv2,setRewardsV2]= React.useState<any>("0")
+  const [rewardsv1,setRewardsV1]= React.useState<any>("0")
   const [balanceOf,setBalance]= React.useState<any>("0")
   const [userInfo,setUserInfo]= React.useState<any>("0")
   const [loading,setLoading]= React.useState<any>(false)
