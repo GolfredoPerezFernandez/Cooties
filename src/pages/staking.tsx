@@ -96,6 +96,8 @@ const { data:dataBonusv2 } = useContractRead({
 	address: '0xc578E255eC21c2A56A538cc9748d394239c6eC05',
 	abi: stakingABI,
 	args:[ethAddress],
+	watch: true,
+
 	functionName: 'getBonusMultiplier',
 	})
 
@@ -103,18 +105,13 @@ const { data:dataBonusv2 } = useContractRead({
 const { data:dataBonusv1 } = useContractRead({
 	address: '0x32CCA9522b55c8B75Ff042AF27aA97Be6275FcF4',
 	abi: stakingABI,
-	args:[ethAddress],
+	args:[ethAddress],    
+	watch: true,
+
 
 	functionName: 'getBonusMultiplier',
 	})
-    const [bonusv2,setBonusv2]= React.useState<any>("0")
-
-  const [bonusv1,setBonusv1]= React.useState<any>("0")
-
   
-  const [nftCount2,setNFTCOUNT2]= React.useState<any>("0")
-
-  const [nftCount,setNFTCOUNT]= React.useState<any>("0")
   const { data:dataWithdraw,write:writeWithdraw } = useContractWrite({
     mode: 'recklesslyUnprepared',
     address: '0x008798daAF682d9716Ba9B47dCfD90a503bd9b66',
@@ -157,23 +154,11 @@ const { data:dataBonusv1 } = useContractRead({
   /* 
   const { data:dataRon,write:writeClaimRon } = useContractWrite(configCootRon) */
 
-const [rewardsv2,setRewardsV2]= React.useState<any>("0")
-const [rewardsv1,setRewardsV1]= React.useState<any>("0")
-const [balanceOf,setBalance]= React.useState<any>("0")
-const [userInfo,setUserInfo]= React.useState<any>("0")
-const [loading,setLoading]= React.useState<any>(false)
 
 
 const [pending,setPending]= React.useState<any>("0")
 
-    const { data:data2 } = useContractRead({
-      address: '0x32CCA9522b55c8B75Ff042AF27aA97Be6275FcF4',
-      abi: stakingABI,
-	  structuralSharing: (prev, next) => (prev === next ? prev : next),
-
-      args:[ethAddress],
-      functionName: 'calculateRewards',
-      })
+   
    
       const { data:dataAllowance } = useContractRead<any,any,any>({
         address: '0xe4671844Fcb3cA9A80A1224B6f9A0A6c2Ba2a7d5',
@@ -316,7 +301,8 @@ React.useEffect(()=>{
       address: '0x32CCA9522b55c8B75Ff042AF27aA97Be6275FcF4',
       abi: stakingABI,
       args:[ethAddress], 
-		 structuralSharing: (prev, next) => (prev === next ? prev : next),
+	  watch: true,
+	 structuralSharing: (prev, next) => (prev === next ? prev : next),
 
       functionName: 'calculateRewards',
       })
@@ -334,7 +320,9 @@ React.useEffect(()=>{
 		const { data:data2v2 } = useContractRead({
 			address: '0xc578E255eC21c2A56A538cc9748d394239c6eC05',
 			abi: stakingABI,
-			args:[ethAddress], 
+			args:[ethAddress],
+			watch: true,
+
 			   structuralSharing: (prev, next) => (prev === next ? prev : next),
 	  
 			functionName: 'calculateRewards',
@@ -374,26 +362,35 @@ React.useEffect(()=>{
 
 				setNFTCOUNT2(data3v2)
 				setNFTCOUNT(data3v1)
-	
-				  if(data2){ 
-					setRewardsV1(ethers.utils.formatEther(data2v1.toString()).substring(0,6))
-	
-				  }
-				  if(data2v2){          
-						 setRewardsV2(ethers.utils.formatEther(data2v2.toString()).substring(0,6))
-	
-	
-				  } 
-	
+				if(data2v1){ 
+
+				setRewardsV1(ethers.utils.formatEther(data2v1.toString()).substring(0,6))
+			}
+			if(data2v2){ 
+
+				setRewardsV2(ethers.utils.formatEther(data2v2.toString()).substring(0,6))
+			}
 		  }
 
-    React.useEffect(()=>{ 
-      if(ethAddress){
-        init()
-      }
+		  React.useEffect(()=>{ 
+			if(ethAddress){
+			  init()
+			}
+	  
+		  },[ethAddress,data2v1,data2v2])
+	const [bonusv2,setBonusv2]= React.useState<any>("0")
 
-    },[ethAddress])
-
+	const [bonusv1,setBonusv1]= React.useState<any>("0")
+  
+	
+	const [nftCount2,setNFTCOUNT2]= React.useState<any>("0")
+  
+	const [nftCount,setNFTCOUNT]= React.useState<any>("0")
+  const [rewardsv2,setRewardsV2]= React.useState<any>(ethers.utils.formatEther(data2v2.toString()).substring(0,6))
+  const [rewardsv1,setRewardsV1]= React.useState<any>(ethers.utils.formatEther(data2v1.toString()).substring(0,6))
+  const [balanceOf,setBalance]= React.useState<any>("0")
+  const [userInfo,setUserInfo]= React.useState<any>("0")
+  const [loading,setLoading]= React.useState<any>(false)
     const handleApprove =async () => {
 		try{ 
  
