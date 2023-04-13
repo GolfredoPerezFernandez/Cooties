@@ -34,33 +34,6 @@ export default function Staking() {
   const [values, setValues] = React.useState<any>({
     amount: '0',
   });
-  const { config:configv2 } = usePrepareContractWrite({
-    address: '0xc578E255eC21c2A56A538cc9748d394239c6eC05',
-    abi: stakingABI,
-	enabled:false,
-    functionName: 'claimRewards',
-      onSuccess(data) {	
-      },
-      onError(data){
-      
-        console.log('error', data)
-    }
-  
-    })  
-  const { config:configv1 } = usePrepareContractWrite({
-    address: '0x32CCA9522b55c8B75Ff042AF27aA97Be6275FcF4',
-    abi: stakingABI,
-	
-  enabled:false,
-    functionName: 'claimRewards',
-      onSuccess(data) {	
-      },
-      onError(data){
-      
-        console.log('error', data)
-    }
-  
-    })  
 
 	
 /* 	const { config :configCootRon } = usePrepareContractWrite({
@@ -93,6 +66,32 @@ export default function Staking() {
   
     })  
 
+	const { config:configv2 } = usePrepareContractWrite({
+		address: '0xc578E255eC21c2A56A538cc9748d394239c6eC05',
+		abi: stakingABI,
+		functionName: 'claimRewards',
+		  onSuccess(data) {	
+		  },
+		  onError(data){
+		  
+			console.log('error', data)
+		}
+	  
+		})  
+	  const { config:configv1 } = usePrepareContractWrite({
+		address: '0x32CCA9522b55c8B75Ff042AF27aA97Be6275FcF4',
+		abi: stakingABI,
+		
+		functionName: 'claimRewards',
+		  onSuccess(data) {	
+		  },
+		  onError(data){
+		  
+			console.log('error', data)
+		}
+	  
+		})  
+
 const { data:dataBonusv2 } = useContractRead({
 	address: '0xc578E255eC21c2A56A538cc9748d394239c6eC05',
 	abi: stakingABI,
@@ -105,6 +104,7 @@ const { data:dataBonusv1 } = useContractRead({
 	address: '0x32CCA9522b55c8B75Ff042AF27aA97Be6275FcF4',
 	abi: stakingABI,
 	args:[ethAddress],
+
 	functionName: 'getBonusMultiplier',
 	})
     const [bonusv2,setBonusv2]= React.useState<any>("0")
