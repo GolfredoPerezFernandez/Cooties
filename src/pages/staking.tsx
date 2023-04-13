@@ -26,12 +26,7 @@ import { Button, Hero, Input, PlanCard, Typography } from '@web3uikit/core'
 import { ethers } from 'ethers';
 import * as React from 'react'
 import { useContractWrite, useAccount,usePrepareContractWrite, useContractRead, useProvider } from 'wagmi';
-import { publicProvider } from 'wagmi/providers/public'
 
-const InputDataDecoder = require('ethereum-input-data-decoder');
-
-
-const axios = require('axios');
 
 export default function Staking() {  
   const { address:ethAddress} = useAccount()
@@ -56,7 +51,7 @@ export default function Staking() {
     address: '0x32CCA9522b55c8B75Ff042AF27aA97Be6275FcF4',
     abi: stakingABI,
 	
-	enabled:false,
+  enabled:false,
     functionName: 'claimRewards',
       onSuccess(data) {	
       },
@@ -84,7 +79,8 @@ export default function Staking() {
 		})   */
   const { config :configCoot } = usePrepareContractWrite({
     address: '0x008798daAF682d9716Ba9B47dCfD90a503bd9b66',
-    abi: masterDark,
+    abi: masterDark,	
+	enabled:false,
     functionName: 'harvest',
     args:[0,ethAddress],
       onSuccess(data) {	
@@ -97,26 +93,14 @@ export default function Staking() {
   
     })  
 
-  const { config, error } = usePrepareContractWrite({
-  address: '0x32CCA9522b55c8B75Ff042AF27aA97Be6275FcF4',
-  abi: stakingABI,
-  functionName: 'claimRewards',
-    onSuccess(data) {	
-
-    },
-    onError(data){
-    
-      console.log('error', data)
-  }
-
-  })  
-  
 const { data:dataBonusv2 } = useContractRead({
 	address: '0xc578E255eC21c2A56A538cc9748d394239c6eC05',
 	abi: stakingABI,
 	args:[ethAddress],
 	functionName: 'getBonusMultiplier',
 	})
+
+
 const { data:dataBonusv1 } = useContractRead({
 	address: '0x32CCA9522b55c8B75Ff042AF27aA97Be6275FcF4',
 	abi: stakingABI,
@@ -173,7 +157,6 @@ const { data:dataBonusv1 } = useContractRead({
   /* 
   const { data:dataRon,write:writeClaimRon } = useContractWrite(configCootRon) */
 
-  const { data, isLoading, isSuccess, write } = useContractWrite(config)
 const [rewardsv2,setRewardsV2]= React.useState<any>("0")
 const [rewardsv1,setRewardsV1]= React.useState<any>("0")
 const [balanceOf,setBalance]= React.useState<any>("0")
@@ -378,6 +361,7 @@ React.useEffect(()=>{
 				setUserInfo(dataUserInfo)  
 	
 			  }
+			  console.log(dataBonusv1)
 			  if(dataBonusv1){ 
 				setBonusv1(dataBonusv1)		
 			   }
