@@ -7,7 +7,6 @@ import { WagmiConfig } from 'wagmi'
 import { AppBar, Box, Container, Grid, IconButton,  Menu, MenuItem, ThemeProvider,  Toolbar,  Typography,  createTheme, responsiveFontSizes } from '@mui/material'
 
 import { chains, client } from '../wagmi'
-import { MoralisProvider } from 'react-moralis';
 
 import MenuIcon from '@mui/icons-material/Menu';
 import Link from 'next/link'
