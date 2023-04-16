@@ -53,7 +53,6 @@ export default function Staking() {
   const { config :configCoot } = usePrepareContractWrite({
     address: '0x008798daAF682d9716Ba9B47dCfD90a503bd9b66',
     abi: masterDark,	
-	enabled:false,
 	chainId:19,
     functionName: 'harvest',
     args:[0,ethAddress],
@@ -69,7 +68,7 @@ export default function Staking() {
 	const { config :configCootCash } = usePrepareContractWrite({
 	  address: '0x5b05De92E629879FB6c9107C987388EDE3C41245',
 	  abi: masterDark,	
-	  chainId:14,
+	  chainId:19,
 	  functionName: 'harvest',
 	  args:[0,ethAddress],
 		onSuccess(data) {	
@@ -86,7 +85,6 @@ export default function Staking() {
 		address: '0xc578E255eC21c2A56A538cc9748d394239c6eC05',
 		abi: stakingABI,
 		chainId:19,
-		enabled:false,
 		functionName: 'claimRewards',
 		  onSuccess(data) {	
 		  },
@@ -100,7 +98,6 @@ export default function Staking() {
 		address: '0x32CCA9522b55c8B75Ff042AF27aA97Be6275FcF4',
 		abi: stakingABI,
 		
-	enabled:false,
 	chainId:19,
 		functionName: 'claimRewards',
 		  onSuccess(data) {	
@@ -118,7 +115,6 @@ const { data:dataBonusv2 } = useContractRead({
 	args:[ethAddress],
 	watch: true,
 	chainId:19,
-	enabled:false,
 
 	functionName: 'getBonusMultiplier',
 	})
@@ -131,7 +127,6 @@ const { data:dataBonusv1 } = useContractRead({
 	watch: true,
 	chainId:19,
 
-	enabled:false,
 
 	functionName: 'getBonusMultiplier',
 	})
@@ -299,7 +294,6 @@ chainId:19,
 			abi: erc20ABI,
 			chainId:14,
 			watch:true,
-			enabled:false,
 			args:["0x5b05De92E629879FB6c9107C987388EDE3C41245"],   
 	
 			functionName: 'balanceOf',
@@ -309,7 +303,6 @@ chainId:19,
       abi: erc20ABI,
 	  chainId:19,
 	  
-	enabled:false,
       args:["0x008798daAF682d9716Ba9B47dCfD90a503bd9b66",values.amount],
       functionName: 'approve',
        async onSuccess() {	
@@ -542,7 +535,7 @@ const { data:dataPendingCash } = useContractRead({
 			  init()
 			}
 	  
-		  },[dataClaimCash,ethAddress,data2v1,data2v2,isSuccessApprove,isSuccessApproveCash,dataStakerTokenIdsv2])
+		  },[ethAddress,data2v1,data2v2,isSuccessApprove,isSuccessApproveCash])
 	const [bonusv2,setBonusv2]= React.useState<any>("0")
 
 	const [bonusv1,setBonusv1]= React.useState<any>("0")
@@ -772,7 +765,7 @@ setValues({ ...values, [prop]:ethers.utils.parseUnits(event.target.value,"ether"
                   placeholder="100"
                   />
                   <Button  key={"31131"} disabled={!loading}  onClick={() => handleApprove()} style={{ marginTop: 4 }} isFullWidth text="STAKE COOT" theme="primary" />
-                  <Button key={"931"} disabled={!writeClaimRewards} onClick={() => claimRewardsCoot()} style={{ marginTop: 4 }} isFullWidth text="CLAIM" theme="primary" /><Button key={"2334"} onClick={() => handleWithdraw()} style={{ marginTop: 4 }} isFullWidth text="Withdraw" theme="secondary" /></div>}
+                  <Button key={"931"}  onClick={() => claimRewardsCoot()} style={{ marginTop: 4 }} isFullWidth text="CLAIM" theme="primary" /><Button key={"2334"} onClick={() => handleWithdraw()} style={{ marginTop: 4 }} isFullWidth text="Withdraw" theme="secondary" /></div>}
                 features={[
 					"Your Deposit:"+ethers.utils.formatEther(userInfo[0].toString()),
                   "TVL:"+balanceOf.toString().substring(0,12),
