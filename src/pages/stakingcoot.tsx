@@ -379,7 +379,7 @@ const [pendingCash,setPendingCash]= React.useState<any>("0")
 			  init()
 			}
 	  
-		  },[ethAddress,chain.id,dataPendingCash,dataPending,isSuccessApprove,isSuccessApproveCash])
+		  },[ethAddress,chain.id,dataPendingCash,dataPending])
 	
   const [balanceOf,setBalance]= React.useState<any>("0")
     const [balanceOfCash,setBalanceCash]= React.useState<any>("0")
