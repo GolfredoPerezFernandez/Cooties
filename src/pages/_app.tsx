@@ -3,7 +3,7 @@ import { ConnectButton, RainbowKitProvider } from '@rainbow-me/rainbowkit'
 import type { AppProps } from 'next/app'
 import NextHead from 'next/head'
 import * as React from 'react'
-import { WagmiConfig } from 'wagmi'
+import { WagmiConfig, useNetwork } from 'wagmi'
 import { AppBar, Box, Container, Grid, IconButton,  Menu, MenuItem, ThemeProvider,  Toolbar,  Typography,  createTheme, responsiveFontSizes } from '@mui/material'
 
 import { chains, client } from '../wagmi'
@@ -23,9 +23,12 @@ const theme = createTheme({
   }
   
 })
-const pages = [{text:'HOME',href:"/"},{text:'DOCS',href:"https://docs.cootiedocs.xyz/"}, {text:'STAKING',href:"/staking"}, {text:'SWAP',href:"/swap"}];
+
 
 function App({ Component, pageProps }: AppProps) {
+  const { chain } = useNetwork()
+  const pages = chain.id.toString()==="14"?[{text:'HOME',href:"/"},{text:'DOCS',href:"https://docs.cootiedocs.xyz/"}, {text:'$COOT',href:"/stakingcoot"}, {text:'SWAP',href:"/swap"}]:[{text:'HOME',href:"/"},{text:'DOCS',href:"https://docs.cootiedocs.xyz/"},{text:'Cooties V1',href:"/stakingv1"},{text:'Cooties V2',href:"/stakingv2"}, {text:'$COOT',href:"/stakingcoot"}, {text:'SWAP',href:"/swap"}];
+
   const [mounted, setMounted] = React.useState(false)
   React.useEffect(() => setMounted(true), [])
   

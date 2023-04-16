@@ -28,32 +28,19 @@ import * as React from 'react'
 import { useContractWrite, useAccount,usePrepareContractWrite, useContractRead, useProvider } from 'wagmi';
 
 
-export default function Staking() {  
+export default function StakingCoot() {  
   const { address:ethAddress} = useAccount()
 
+  const { chain } = useNetwork()
   const [values, setValues] = React.useState<any>({
     amount: '0',
   });
 
-	
-/* 	const { config :configCootRon } = usePrepareContractWrite({
-		address: '0x51633b5552Da45884EfDeA0ceeA631B00B784f64',
-		abi: MiniChefV2,
-		functionName: 'withdrawRewards',
-		args:["0xe4671844fcb3ca9a80a1224b6f9a0a6c2ba2a7d5","40000000000000000000000",true],
-		  onSuccess(data) {	
-	  
-		  },
-		  onError(data){
-		  
-			console.log('error', data)
-		}
-	  
-		})   */
   const { config :configCoot } = usePrepareContractWrite({
     address: '0x008798daAF682d9716Ba9B47dCfD90a503bd9b66',
     abi: masterDark,	
 	chainId:19,
+	enabled:chain.id.toString()=="19"?true:false,
     functionName: 'harvest',
     args:[0,ethAddress],
       onSuccess(data) {	
@@ -68,7 +55,7 @@ export default function Staking() {
 	const { config :configCootCash } = usePrepareContractWrite({
 	  address: '0x5b05De92E629879FB6c9107C987388EDE3C41245',
 	  abi: masterDark,	
-	  chainId:19,
+	  chainId:14,
 	  functionName: 'harvest',
 	  args:[0,ethAddress],
 		onSuccess(data) {	
@@ -81,55 +68,7 @@ export default function Staking() {
 	
 	  })  
 	
-	const { config:configv2 } = usePrepareContractWrite({
-		address: '0xc578E255eC21c2A56A538cc9748d394239c6eC05',
-		abi: stakingABI,
-		chainId:19,
-		functionName: 'claimRewards',
-		  onSuccess(data) {	
-		  },
-		  onError(data){
-		  
-			console.log('error', data)
-		}
-	  
-		})  
-	  const { config:configv1 } = usePrepareContractWrite({
-		address: '0x32CCA9522b55c8B75Ff042AF27aA97Be6275FcF4',
-		abi: stakingABI,
-		
-	chainId:19,
-		functionName: 'claimRewards',
-		  onSuccess(data) {	
-		  },
-		  onError(data){
-		  
-			console.log('error', data)
-		}
-	  
-		})  
 
-const { data:dataBonusv2 } = useContractRead({
-	address: '0xc578E255eC21c2A56A538cc9748d394239c6eC05',
-	abi: stakingABI,
-	args:[ethAddress],
-	watch: true,
-	chainId:19,
-
-	functionName: 'getBonusMultiplier',
-	})
-
-
-const { data:dataBonusv1 } = useContractRead({
-	address: '0x32CCA9522b55c8B75Ff042AF27aA97Be6275FcF4',
-	abi: stakingABI,
-	args:[ethAddress],    
-	watch: true,
-	chainId:19,
-
-
-	functionName: 'getBonusMultiplier',
-	})
   
   const { data:dataWithdraw,write:writeWithdraw } = useContractWrite({
     mode: 'recklesslyUnprepared',
@@ -206,14 +145,8 @@ const { data:dataBonusv1 } = useContractRead({
 		})  
 		const { data:dataClaimCash,write:writeClaimRewardsCash } = useContractWrite(configCootCash)
 
-  const { data:dataClaim,write:writeClaimRewards } = useContractWrite(configCoot)
-  const { data:dataV1,write:writeV1 } = useContractWrite(configv1)
-  const { data:dataV2,write:writeV2 } = useContractWrite(configv2)
-
-  /* 
-  const { data:dataRon,write:writeClaimRon } = useContractWrite(configCootRon) */
-
-
+  const { write:writeClaimRewards } = useContractWrite(configCoot)
+  
 
 const [pending,setPending]= React.useState<any>("0")
 
@@ -225,18 +158,10 @@ const [pendingCash,setPendingCash]= React.useState<any>("0")
         abi: erc20ABI,
 		chainId:19,
 		structuralSharing: (prev, next) => (prev === next ? prev : next),
-
         args:[ethAddress,"0x32CCA9522b55c8B75Ff042AF27aA97Be6275FcF4"],
         functionName: 'allowance',
         })
 
-    const { data:data3 } = useContractRead({
-      address: '0x32CCA9522b55c8B75Ff042AF27aA97Be6275FcF4',
-      abi: stakingABI,  
-chainId:19,
-      args:[ethAddress],
-      functionName: 'getNftCount',
-      })
 
 	  const handleWithdrawCash =async () => {
 
@@ -267,18 +192,16 @@ chainId:19,
 
     };
 	
-    const claimRewardsV2 =async () => {
+	const { data:dataUserInfoCash } = useContractRead({
+		address: '0x5b05De92E629879FB6c9107C987388EDE3C41245',
+		abi: masterDark,  
+		watch: true,
+		chainId:14,
+		  structuralSharing: (prev, next) => (prev === next ? prev : next),
 
-		await  writeV2?.()
-
-
-};
-    const claimRewardsV1 =async () => {
-
-			await  writeV1?.()
-
-
-    };
+		args:[0,ethAddress],
+		functionName: 'userInfo',
+		})
     
 	const { data:dataBalance } = useContractRead<any,any,any>({
 		address: '0xe4671844Fcb3cA9A80A1224B6f9A0A6c2Ba2a7d5',
@@ -289,6 +212,16 @@ chainId:19,
 
 		functionName: 'balanceOf',
 		})
+		const { data:dataPendingCash } = useContractRead({
+			address: '0x5b05De92E629879FB6c9107C987388EDE3C41245',
+			abi: masterDark,
+			args:[0,ethAddress],   
+			chainId:14,
+			 structuralSharing: (prev, next) => (prev === next ? prev : next),
+		watch:true,
+		
+			functionName: 'pendingReward',
+			})
 		const { data:dataBalanceCash } = useContractRead<any,any,any>({
 			address: '0xe990eAA4D078f3F3018F692A5880423cF9536f92',
 			abi: erc20ABI,
@@ -302,7 +235,7 @@ chainId:19,
       address: '0xe4671844Fcb3cA9A80A1224B6f9A0A6c2Ba2a7d5',
       abi: erc20ABI,
 	  chainId:19,
-	  
+	  enabled:chain.id.toString()=="14"?false:true,
       args:["0x008798daAF682d9716Ba9B47dCfD90a503bd9b66",values.amount],
       functionName: 'approve',
        async onSuccess() {	
@@ -338,41 +271,11 @@ chainId:19,
 		},
 		})  
   
-	  const {
-		data: dataStakerTokenIdsv1,
-	  } = useContractRead({
-		address: `0xa142b8CbDABdE681C67C18870e4008913797acf1`,
-		abi: StakingNew,
-		chainId:19,
-		functionName: 'getStakerTokenIds',
-		args:[ethAddress]
-	  });
-
-  const {
-    data: dataStakerTokenIdsv2,
-  } = useContractRead({
-    address: `0x0E6ECe06492aA9b31106b443fa057e0226e7Df41`,
-    abi: StakingNew,
-	chainId:19,
-    functionName: 'getStakerTokenIds',
-	args:[ethAddress]
-  });
   const { data:dataApproveCash,write:writeApproveCash ,isSuccess:isSuccessApproveCash} = useContractWrite({...configApproveCash})
 
       const { data:dataApprove,write:writeApprove ,isSuccess:isSuccessApprove} = useContractWrite({...configApprove})
 
 
-
-const { data:dataPendingCash } = useContractRead({
-	address: '0x5b05De92E629879FB6c9107C987388EDE3C41245',
-	abi: masterDark,
-	args:[0,ethAddress],   
-	chainId:14,
-	 structuralSharing: (prev, next) => (prev === next ? prev : next),
-
-
-	functionName: 'pendingReward',
-	})
 	   const { data:dataPending } = useContractRead({
 		address: '0x008798daAF682d9716Ba9B47dCfD90a503bd9b66',
 		abi: masterDark,
@@ -393,75 +296,19 @@ const { data:dataPendingCash } = useContractRead({
 		})
 
 
-		const { data:dataUserInfoCash } = useContractRead({
-			address: '0x5b05De92E629879FB6c9107C987388EDE3C41245',
-			abi: masterDark,  
-			watch: true,
-			chainId:14,
-			  structuralSharing: (prev, next) => (prev === next ? prev : next),
-	
-			args:[0,ethAddress],
-			functionName: 'userInfo',
-			})
-    const { data:data2v1 } = useContractRead({
-      address: '0x32CCA9522b55c8B75Ff042AF27aA97Be6275FcF4',
-      abi: stakingABI,
-      args:[ethAddress], 
-	  watch: true,
-	  chainId:19,
-	 structuralSharing: (prev, next) => (prev === next ? prev : next),
-
-      functionName: 'calculateRewards',
-      })
+    
    
-    const { data:data3v1 } = useContractRead({
-      address: '0x32CCA9522b55c8B75Ff042AF27aA97Be6275FcF4',
-      abi: stakingABI,
-      args:[ethAddress], 
-	  
-	  chainId:19,
-		 structuralSharing: (prev, next) => (prev === next ? prev : next),
-
-      functionName: 'getNftCount',
-      })
+  
 		
 		
-		const { data:data2v2 } = useContractRead({
-			address: '0xc578E255eC21c2A56A538cc9748d394239c6eC05',
-			abi: stakingABI,
-			args:[ethAddress],
-			watch: true,
-			chainId:19,
-			   structuralSharing: (prev, next) => (prev === next ? prev : next),
-	  
-			functionName: 'calculateRewards',
-			})
+	
 		 
-		  const { data:data3v2 } = useContractRead({
-			address: '0xc578E255eC21c2A56A538cc9748d394239c6eC05',
-			abi: stakingABI,
-			args:[ethAddress], 
-			
-			chainId:19,
-			   structuralSharing: (prev, next) => (prev === next ? prev : next),
-	  
-			functionName: 'getNftCount',
-			})
-			const { chain } = useNetwork()
+		 
 		async  function init(){
 			
 
 			if(chain.id.toString()=="14"){
-				
-	if(isSuccessApproveCash==true){
-		if(dataApproveCash>=values.amount){
-
-		setTimeout(()=>{
-
-			writeDepositCash?.() 
-		},9000)
-		  
-	}	}
+			
 			if(dataPendingCash){
 				setPendingCash(ethers.utils.formatEther(parseFloat((dataPendingCash??"0").toString()).toString()))
 			}
@@ -477,7 +324,7 @@ const { data:dataPendingCash } = useContractRead({
 			if(dataPending){
 				setPending(ethers.utils.formatEther(parseFloat((dataPending??"0").toString()).toString()))
 			}
-			
+	
 			if(dataBalance){
 				setBalance(ethers.utils.formatEther(dataBalance.toString()))
 			}
@@ -485,67 +332,55 @@ const { data:dataPendingCash } = useContractRead({
 				setUserInfo(dataUserInfo)  
 	
 			  }
-			  if(dataBonusv1){ 
-				setBonusv1(dataBonusv1)		
-			   }
+			
 
-			   if(dataBonusv2){ 
-				setBonusv2(dataBonusv2)
-			}
+		
 				
-
-
-				setNFTCOUNT2(data3v2)
-				setNFTCOUNT(data3v1)
-				if(data2v1){ 
-
-				setRewardsV1(ethers.utils.formatEther(data2v1.toString()).substring(0,6))
-			}
-			if(data2v2){ 
-
-				setRewardsV2(ethers.utils.formatEther(data2v2.toString()).substring(0,6))
-			}}
+		}
 		  }
 
 		  React.useEffect(()=>{ 
 			
-
-	if(Array.isArray(dataStakerTokenIdsv1)?dataStakerTokenIdsv1.length>0:false){
-		withdrawOldv1({
-		   recklesslySetUnpreparedArgs:[dataStakerTokenIdsv1] ,
-		 })
-	   }
-	if(Array.isArray(dataStakerTokenIdsv2)?dataStakerTokenIdsv2.length>0:false){
-	 withdrawOldv2({
-		recklesslySetUnpreparedArgs:[dataStakerTokenIdsv2] ,
-	  })
-	}
-
-	if(isSuccessApprove==true){
-		if(dataApprove>=values.amount){
+			if(ethAddress){
+			
+				if(chain.id.toString()=="14"){
+						
+				
+	if(isSuccessApproveCash==true){
+		if(dataApproveCash>=values.amount){
 
 		setTimeout(()=>{
 
-			writeDeposit?.() 
+			writeDepositCash?.() 
 		},9000)
 		  
 	}	}
+			  } else{
+		
+				if(isSuccessApprove==true){
+					if(dataApprove>=values.amount){
+			
+					setTimeout(()=>{
+			
+						writeDeposit?.() 
+					},9000)
+					  
+				}	}
+			  } 
+			}
+		},[isSuccessApprove,isSuccessApproveCash])
+		  React.useEffect(()=>{ 
+			
+
+
+
 	
 			if(ethAddress){
 			  init()
 			}
 	  
-		  },[ethAddress,data2v1,data2v2,isSuccessApprove,isSuccessApproveCash])
-	const [bonusv2,setBonusv2]= React.useState<any>("0")
-
-	const [bonusv1,setBonusv1]= React.useState<any>("0")
-  
+		  },[ethAddress,chain.id,dataPendingCash,dataPending,isSuccessApprove,isSuccessApproveCash])
 	
-	const [nftCount2,setNFTCOUNT2]= React.useState<any>("0")
-  
-	const [nftCount,setNFTCOUNT]= React.useState<any>("0")
-  const [rewardsv2,setRewardsV2]= React.useState<any>("0")
-  const [rewardsv1,setRewardsV1]= React.useState<any>("0")
   const [balanceOf,setBalance]= React.useState<any>("0")
     const [balanceOfCash,setBalanceCash]= React.useState<any>("0")
 
@@ -575,26 +410,8 @@ const { data:dataPendingCash } = useContractRead({
 		setLoading(false)
 	}
       }
-  const {
-    write: withdrawOldv2,
-    data: datawithdrawOldv2,
-  } = useContractWrite({
-    address: `0x0E6ECe06492aA9b31106b443fa057e0226e7Df41`,
-    abi: masterDark8888,
-    functionName: 'withdraw',
-    mode: 'recklesslyUnprepared',
-  });
 
 	  
-  const {
-    write: withdrawOldv1,
-    data: datawithdrawOldv1,
-  } = useContractWrite({
-    address: `0xa142b8CbDABdE681C67C18870e4008913797acf1`,
-    abi: masterDark8888,
-    functionName: 'withdraw',
-    mode: 'recklesslyUnprepared',
-  });
 
 
   const handleChanges = (prop: keyof any) => (event: React.ChangeEvent<any>) => {
@@ -780,80 +597,6 @@ setValues({ ...values, [prop]:ethers.utils.parseUnits(event.target.value,"ether"
                 themeColor="#00D1AE"
                 title="COOT Staking"
                 width="285px" description={<Typography key={"3331"} color="#041836" variant="h1" weight="700">{""}</Typography>}    /></div>
-  </Grid>
-  <Grid 
-  
-  key={"7666"}
-  justifyContent="center"
-  alignItems="center" item xs>
-   
-      <div
-	    key={"72"}
-    style={{
-      alignSelf:"center",
-      display: 'flex',
-      flexDirection: 'row',
-      justifyContent:"center",
-      alignItems:"center",
-    }}
-  >
-  <PlanCard
-  key={"5"}
-      backgroundColor="#F0F8FF"
-      ctaButton={<div key={"331"}><Button key={"31"} onClick={()=>claimRewardsV1()} isFullWidth text="CLAIM" theme="primary"/></div>}
-      description={<Typography key={"911"} color="#5B8DB9" variant="caption14" weight="550">Your Info</Typography>}
-      features={[
-        nftCount+" Cooties Owned",   
-        bonusv1.toString().substring(0,1)+"X Bonus Multiplier",   
-      ]}
-      featuresIconColor="#A8AFB7"
-      height="606px"
-      horizontalLine
-      isCurrentBillingPeriod
-      isCurrentPlan
-      price={<Typography key={"912"} color="#041836" variant="h1" weight="700">{rewardsv1+" COOT"}</Typography>}
-      themeColor="#00D1AE"
-      title="Staking Cooties V1"
-      width="285px"
-    /></div>
-  </Grid>
-
-  <Grid 
-  
-  key={"53"}
-  justifyContent="center"
-  alignItems="center" item xs>
-     <div
-	 
-	 key={"95"}
-    style={{
-      alignSelf:"center",
-      display: 'flex',
-      flexDirection: 'row',
-      justifyContent:"center",
-      alignItems:"center",
-    }}
-  >
-  <PlanCard
-  key={"3"}
-      backgroundColor="#F0F8FF"
-      ctaButton={<div><Button key={"91231"}  onClick={()=>claimRewardsV2()} isFullWidth text="CLAIM" theme="primary"/></div>}
-      description={<Typography key={"9167"} color="#5B8DB9" variant="caption14" weight="550">Your Info</Typography>}
-      features={[
-        nftCount2+" Cooties Owned",     
-        bonusv2.toString().substring(0,1)+"X Bonus Multiplier",   
-      ]}
-      featuresIconColor="#A8AFB7"
-      height="606px"
-      horizontalLine
-      isCurrentBillingPeriod
-      isCurrentPlan
-      price={<Typography key={"989781"} color="#041836" variant="h1" weight="700">{rewardsv2+ " COOT"}</Typography>}
-      themeColor="#00D1AE"
-      title="Staking Cooties V2"
-      width="285px"
-    />
-    </div>
   </Grid>
 </Grid>
     
