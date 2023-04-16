@@ -27,7 +27,7 @@ const theme = createTheme({
 
 function App({ Component, pageProps }: AppProps) {
   const { chain } = useNetwork()
-  const pages = chain.id.toString()==="14"?[{text:'HOME',href:"/"},{text:'DOCS',href:"https://docs.cootiedocs.xyz/"}, {text:'$COOT',href:"/stakingcoot"}, {text:'SWAP',href:"/swap"}]:[{text:'HOME',href:"/"},{text:'DOCS',href:"https://docs.cootiedocs.xyz/"},{text:'Cooties V1',href:"/stakingv1"},{text:'Cooties V2',href:"/stakingv2"}, {text:'$COOT',href:"/stakingcoot"}, {text:'SWAP',href:"/swap"}];
+  const pages = chain?.id.toString()==="14"?[{text:'HOME',href:"/"},{text:'DOCS',href:"https://docs.cootiedocs.xyz/"}, {text:'$COOT',href:"/stakingcoot"}, {text:'SWAP',href:"/swap"}]:[{text:'HOME',href:"/"},{text:'DOCS',href:"https://docs.cootiedocs.xyz/"},{text:'Cooties V1',href:"/stakingv1"},{text:'Cooties V2',href:"/stakingv2"}, {text:'$COOT',href:"/stakingcoot"}, {text:'SWAP',href:"/swap"}];
 
   const [mounted, setMounted] = React.useState(false)
   React.useEffect(() => setMounted(true), [])
