@@ -35,160 +35,140 @@ export default function StakingCoot() {
   const [values, setValues] = React.useState<any>({
     amount: '0',
   });
-
-  const { config :configCoot } = usePrepareContractWrite({
-    address: '0x008798daAF682d9716Ba9B47dCfD90a503bd9b66',
-    abi: masterDark,	
-	chainId:19,
-	enabled:chain.id.toString()=="19"?true:false,
-    functionName: 'harvest',
-    args:[0,ethAddress],
-      onSuccess(data) {	
-  
-      },
-      onError(data){
-      
-        console.log('error', data)
-    }
-  
-    })  
+	const { config :configCootCash } = usePrepareContractWrite({
+	  address: '0x5b05De92E629879FB6c9107C987388EDE3C41245',
+	  abi: masterDark,	
+	  chainId:14,
+	  functionName: 'harvest',
+	  args:[0,ethAddress],
+		onSuccess(data) {	
+	
+		},
+		onError(data){
+		
+		  console.log('error', data)
+	  }
+	
+	  })  
 	
 
-  
-  const { data:dataWithdraw,write:writeWithdraw } = useContractWrite({
-    mode: 'recklesslyUnprepared',
-    address: '0x008798daAF682d9716Ba9B47dCfD90a503bd9b66',
-    abi: masterDark,
-	
-	chainId:19,
-    functionName: 'withdraw',
-    args:[0,values.amount,ethAddress],
-      async onSuccess(data) {	
-  
-      },
-      onError(data){
-      
-        console.log('error', data)
-    }
-  
-    })
-  const { data:dataDeposit,write:writeDeposit } = useContractWrite({
-	mode: 'recklesslyUnprepared',
-	address: '0x008798daAF682d9716Ba9B47dCfD90a503bd9b66',
-    abi: masterDark,
-
-	chainId:19,
-    functionName: 'deposit',
-    args:[0,values.amount,ethAddress],
-      async onSuccess(data) {	
-  
-		setLoading(true)
-      },
+	const { data:dataWithdrawCash,write:writeWithdrawCash } = useContractWrite({
+		mode: 'recklesslyUnprepared',
+		chainId:14,
+		address: '0x5b05De92E629879FB6c9107C987388EDE3C41245',
+		abi: masterDark,
+		functionName: 'withdraw',
+		args:[0,values.amount,ethAddress],
+		  async onSuccess(data) {	
 	  
-      onError(data){
-		setLoading(true)
+		  },
+		  onError(data){
+		  
+			console.log('error', data)
+		}
+	  
+		})
+	  const { data:dataDepositFlare,write:writeDepositCash } = useContractWrite({
+		mode: 'recklesslyUnprepared',
+		address: '0x5b05De92E629879FB6c9107C987388EDE3C41245',
+		abi: masterDark,
+	
+		functionName: 'deposit',
+		args:[0,values.amount,ethAddress],
+		  async onSuccess(data) {	
+	  
+			setLoading(true)
+		  },
+		  
+		  onError(data){
+			setLoading(true)
+	
+			console.log('error', data)
+		}
+	  
+		})  
+		const { data:dataClaimCash,write:writeClaimRewardsCash } = useContractWrite(configCootCash)
 
-        console.log('error', data)
-    }
-  
-    })
-
-  const { write:writeClaimRewards } = useContractWrite(configCoot)
-  
+ 
 
 const [pending,setPending]= React.useState<any>("0")
 
 const [pendingCash,setPendingCash]= React.useState<any>("0")
 
    
-      const { data:dataAllowance } = useContractRead<any,any,any>({
-        address: '0xe4671844Fcb3cA9A80A1224B6f9A0A6c2Ba2a7d5',
-        abi: erc20ABI,
-		chainId:19,
-		structuralSharing: (prev, next) => (prev === next ? prev : next),
-        args:[ethAddress,"0x32CCA9522b55c8B75Ff042AF27aA97Be6275FcF4"],
-        functionName: 'allowance',
-        })
 
 
-		const handleWithdraw =async () => {
+	  const handleWithdrawCash =async () => {
 
 		
 
-			await  writeWithdraw?.()
+		await  writeWithdrawCash?.()
+
+
+};
+    const claimRewardsCootCash =async () => {
+    await  writeClaimRewardsCash?.()
 
 
     };
 	
-    const claimRewardsCoot =async () => {
-
-    await  writeClaimRewards?.()
-
-
-    };
 	
-	
-    
-	const { data:dataBalance } = useContractRead<any,any,any>({
-		address: '0xe4671844Fcb3cA9A80A1224B6f9A0A6c2Ba2a7d5',
-		abi: erc20ABI,
-		chainId:19,
-		watch:true,
-		args:["0x008798daAF682d9716Ba9B47dCfD90a503bd9b66"],   
-
-		functionName: 'balanceOf',
-		})
-	
-    const { config:configApprove} = usePrepareContractWrite({
-      address: '0xe4671844Fcb3cA9A80A1224B6f9A0A6c2Ba2a7d5',
-      abi: erc20ABI,
-	  chainId:19,
-	  enabled:chain.id.toString()=="14"?false:true,
-      args:["0x008798daAF682d9716Ba9B47dCfD90a503bd9b66",values.amount],
-      functionName: 'approve',
-       async onSuccess() {	
-
-        },
-		async onSettled(){ 
-
-			
-		},
-        onError(data){
-			setLoading(true)
-
-          console.log('error', data)
-      },
-      })  
-	  
-  
-
-      const { data:dataApprove,write:writeApprove ,isSuccess:isSuccessApprove} = useContractWrite({...configApprove})
-
-
-	   const { data:dataPending } = useContractRead({
-		address: '0x008798daAF682d9716Ba9B47dCfD90a503bd9b66',
-		abi: masterDark,
-		args:[0,ethAddress],   
-		 structuralSharing: (prev, next) => (prev === next ? prev : next),
-		 chainId:19,
-		 functionName: 'pendingReward',
-		})
-	   const { data:dataUserInfo } = useContractRead({
-		address: '0x008798daAF682d9716Ba9B47dCfD90a503bd9b66',
+	const { data:dataUserInfoCash } = useContractRead({
+		address: '0x5b05De92E629879FB6c9107C987388EDE3C41245',
 		abi: masterDark,  
 		watch: true,
-		chainId:19,
+		chainId:14,
 		  structuralSharing: (prev, next) => (prev === next ? prev : next),
 
 		args:[0,ethAddress],
 		functionName: 'userInfo',
 		})
+    
+		const { data:dataPendingCash } = useContractRead({
+			address: '0x5b05De92E629879FB6c9107C987388EDE3C41245',
+			abi: masterDark,
+			args:[0,ethAddress],   
+			chainId:14,
+			 structuralSharing: (prev, next) => (prev === next ? prev : next),
+		watch:true,
+		
+			functionName: 'pendingReward',
+			})
+		const { data:dataBalanceCash } = useContractRead<any,any,any>({
+			address: '0xe990eAA4D078f3F3018F692A5880423cF9536f92',
+			abi: erc20ABI,
+			chainId:14,
+			watch:true,
+			args:["0x5b05De92E629879FB6c9107C987388EDE3C41245"],   
+	
+			functionName: 'balanceOf',
+			})
+     
+	  
+	  const { config:configApproveCash} = usePrepareContractWrite({
+		address: '0xe990eAA4D078f3F3018F692A5880423cF9536f92',
+		abi: erc20ABI,
+		args:["0x5b05De92E629879FB6c9107C987388EDE3C41245",values.amount],
+		functionName: 'approve',
+		 async onSuccess() {	
+  
+		  },
+		  async onSettled(){ 
+  
+			  
+		  },
+		  onError(data){
+			  setLoading(true)
+  
+			console.log('error', data)
+		},
+		})  
+  
+  const { data:dataApproveCash,write:writeApproveCash ,isSuccess:isSuccessApproveCash} = useContractWrite({...configApproveCash})
+
 
 
     
-   
-  
-		
 		
 	
 		 
@@ -197,20 +177,19 @@ const [pendingCash,setPendingCash]= React.useState<any>("0")
 			
 
 			if(chain.id.toString()=="14"){
+			
+			if(dataPendingCash){
+				setPendingCash(ethers.utils.formatEther(parseFloat((dataPendingCash??"0").toString()).toString()))
+			}
+			if(dataBalanceCash){
+				setBalanceCash(ethers.utils.formatEther(dataBalanceCash.toString()))
+			}
+				if(dataUserInfoCash){ 
+					setUserInfoCash(dataUserInfoCash)  
+		
+				  }
 				  return
 			}else{
-			if(dataPending){
-				setPending(ethers.utils.formatEther(parseFloat((dataPending??"0").toString()).toString()))
-			}
-	
-			if(dataBalance){
-				setBalance(ethers.utils.formatEther(dataBalance.toString()))
-			}
-			if(dataUserInfo){ 
-				setUserInfo(dataUserInfo)  
-	
-			  }
-			
 
 		
 				
@@ -222,40 +201,41 @@ const [pendingCash,setPendingCash]= React.useState<any>("0")
 			if(ethAddress){
 			
 				if(chain.id.toString()=="14"){
+						
+				
+	if(isSuccessApproveCash==true){
+		if(dataApproveCash>=values.amount){
+
+		setTimeout(()=>{
+
+			writeDepositCash?.() 
+		},9000)
+		  
+	}	}
 			  } else{
 		
-				if(isSuccessApprove==true){
-					if(dataApprove>=values.amount){
-			
-					setTimeout(()=>{
-			
-						writeDeposit?.() 
-					},9000)
-					  
-				}	}
 			  } 
 			}
-		},[isSuccessApprove])
+		},[isSuccessApproveCash])
 		  React.useEffect(()=>{ 
 			
 			if(ethAddress){
 			  init()
 			}
 	  
-		  },[ethAddress,chain.id,dataPending])
+		  },[ethAddress,chain.id,dataPendingCash])
 	
-  const [balanceOf,setBalance]= React.useState<any>("0")
     const [balanceOfCash,setBalanceCash]= React.useState<any>("0")
 
-  const [userInfo,setUserInfo]= React.useState<any>("0")
     const [userInfoCash,setUserInfoCash]= React.useState<any>("0")
 
   const [loading,setLoading]= React.useState<any>(false)
-    const handleApprove =async () => {
+   
+	  const handleApproveCash =async () => {
 		try{ 
  
 			setLoading(true)
-       await  writeApprove?.()    
+       await  writeApproveCash?.()    
 
 	   setLoading(false)
 	}catch{
@@ -319,14 +299,11 @@ setValues({ ...values, [prop]:ethers.utils.parseUnits(event.target.value,"ether"
  
 </Hero>
 </div>
-{chain.id.toString()=="14"?null
- 
-  :
+{chain.id.toString()=="14"?
 
-      <div
-	  	key={"142"}
-
-    style={{
+	<div
+		key={"142"}
+   		 style={{
       paddingTop:100,
       paddingBottom:100,
       display: 'flex',
@@ -341,11 +318,14 @@ setValues({ ...values, [prop]:ethers.utils.parseUnits(event.target.value,"ether"
   justifyContent="center"
   width={"100%"}
   alignItems="center" spacing={3}>
-      <Grid 
-    key={"923"}
+    
+  <Grid 
+  
+  key={"923"}
   justifyContent="center"
   alignItems="center" item xs>
-         <div
+   
+      <div
 	  	key={"1240"}
 
     style={{
@@ -355,21 +335,23 @@ setValues({ ...values, [prop]:ethers.utils.parseUnits(event.target.value,"ether"
       justifyContent:"center",
       alignItems:"center",
     }}
+
   >
-  <PlanCard 
+	 <PlanCard 
   key={"101"}
                 backgroundColor="#F0F8FF"
                 ctaButton={<div key={"38231"}><Input
 				key={"3391"}
                   onChange={handleChanges('amount')}
-                  label="CootCoin"
+                  label="COOTCASH"
                   placeholder="100"
                   />
-                  <Button  key={"31131"} disabled={!loading}  onClick={() => handleApprove()} style={{ marginTop: 4 }} isFullWidth text="STAKE COOT" theme="primary" />
-                  <Button key={"931"}  onClick={() => claimRewardsCoot()} style={{ marginTop: 4 }} isFullWidth text="CLAIM" theme="primary" /><Button key={"2334"} onClick={() => handleWithdraw()} style={{ marginTop: 4 }} isFullWidth text="Withdraw" theme="secondary" /></div>}
+                  <Button  key={"31131"}   onClick={() => handleApproveCash()} style={{ marginTop: 4 }} isFullWidth text="STAKE CASH" theme="primary" />
+                  <Button key={"931"}  onClick={() => claimRewardsCootCash()} style={{ marginTop: 4 }} isFullWidth text="CLAIM" theme="primary" />
+				  <Button key={"2334"} onClick={() => handleWithdrawCash()} style={{ marginTop: 4 }} isFullWidth text="Withdraw" theme="secondary" /></div>}
                 features={[
-					"Your Deposit:"+ethers.utils.formatEther(userInfo[0].toString()),
-                  "TVL:"+balanceOf.toString().substring(0,12),
+					"Your Deposit:"+ethers.utils.formatEther(userInfoCash[0].toString()),
+                  "TVL:"+balanceOfCash.toString().substring(0,12),
                   "ROI 90%",
                 ]}
                 featuresIconColor="#A8AFB7"
@@ -377,14 +359,17 @@ setValues({ ...values, [prop]:ethers.utils.parseUnits(event.target.value,"ether"
                 horizontalLine
                 isCurrentBillingPeriod
                 isCurrentPlan
-                price={<Typography key={"33321"} color="#041836" variant="h1" weight="700">{pending&&pending.toString().substring(0,6) + " COOT"}</Typography>}
+                price={<Typography key={"33321"} color="#041836" variant="h1" weight="700">{pendingCash&&pendingCash.toString().substring(0,6) + " CASH"}</Typography>}
                 themeColor="#00D1AE"
-                title="COOT Staking"
-                width="285px" description={<Typography key={"3331"} color="#041836" variant="h1" weight="700">{""}</Typography>}    /></div>
-  </Grid>
+                title="COOT CASH Staking"
+                width="285px" description={<Typography key={"3331"} color="#041836" variant="h1" weight="700">{""}</Typography>}    />
+  </div>
 </Grid>
     
-  </div>}
+</Grid>
+  </div>
+ 
+  :null}
  
    </div>
   )
