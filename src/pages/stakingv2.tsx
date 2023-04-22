@@ -274,8 +274,8 @@ setValues({ ...values, [prop]:ethers.utils.parseUnits(event.target.value,"ether"
       alignItems:"center",
     }}
   >
-  <PlanCard
-  key={"3"}
+  	  <PlanCard
+  	  key={"3"}
       backgroundColor="#F0F8FF"
       ctaButton={<div><Button key={"91231"}  onClick={()=>claimRewardsV2()} isFullWidth text="CLAIM" theme="primary"/></div>}
       description={<Typography key={"9167"} color="#5B8DB9" variant="caption14" weight="550">Your Info</Typography>}
@@ -283,6 +283,7 @@ setValues({ ...values, [prop]:ethers.utils.parseUnits(event.target.value,"ether"
         nftCount2+" Cooties Owned",     
         bonusv2.toString().substring(0,1)+"X Bonus Multiplier",   
       ]}
+
       featuresIconColor="#A8AFB7"
       height="606px"
       horizontalLine

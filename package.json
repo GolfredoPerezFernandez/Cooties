@@ -28,7 +28,8 @@
     "ethereum-input-data-decoder": "^0.4.2",
     "ethers": "^5.7.0",
     "moralis-v1": "^1.12.0",
-    "next": "13.3.0",
+    "next": "^13.3.1",
+    "nextjs": "^0.0.3",
     "nextjs-fonts": "^0.22.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -38,7 +39,7 @@
     "react-router-dom": "^6.10.0",
     "react-type-animation": "^3.0.1",
     "react-vertical-timeline-component": "^3.6.0",
-    "wagmi": "~0.12.0"
+    "wagmi": "^0.12.12"
   },
   "devDependencies": {
     "@types/node": "^17.0.31",
