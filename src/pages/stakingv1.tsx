@@ -300,7 +300,7 @@ const { data:dataBonusv1 } = useContractRead({
       featuresIconColor="#A8AFB7"
       height="606px"
       horizontalLine
-      isCurrentBillingPeriod
+      
       isCurrentPlan
       price={<Typography key={"912"} color="#4fc2f4" variant="h1" weight="700">{rewardsv1+" COOT"}</Typography>}
       themeColor="#4fc2f4"

@@ -290,7 +290,7 @@ setValues({ ...values, [prop]:ethers.parseUnits(event.target.value,"ether") });
       featuresIconColor="#A8AFB7"
       height="606px"
       horizontalLine
-      isCurrentBillingPeriod
+      
       isCurrentPlan
       price={<Typography key={"989781"} color="#041836" variant="h1" weight="700">{rewardsv2+ " COOT"}</Typography>}
       themeColor="#00D1AE"
