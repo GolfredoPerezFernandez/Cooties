@@ -882,29 +882,7 @@ setValues({ ...values, [prop]:event.target.value });
 
         <Box style={{ marginTop:10, flexDirection: "row", justifyContent: "center", alignItems: "center" }}>
   <Stack direction="row" spacing={2} justifyContent="center" alignItems="center" style={{ margin: '0 auto',width:"100%"}}>
-    <TypeAnimation
-      sequence={[`0 COOT`]}
-      wrapper="div"
-      cursor={false}
-      style={{ textShadow: "0px 0px 7px #FFD700", fontSize: isTabletOrMobile2 ? 12 : 13, color: "white", fontFamily: "orbitron", textAlign: 'center'}}
-    />
-    <Slider
-        trackStyle={{ backgroundColor: 'skyblue', height: 10 }}
-        onChange={log}
-        min={0}
-        max={parseFloat(ethers.formatEther(dataBalance??0))}
-        defaultValue={[0, parseFloat(ethers.formatEther(dataBalance??0))]} 
-        allowCross={false}
-        handleStyle={{
-          borderColor: 'purple',
-          height: 28,
-          width: 28,
-          marginLeft: isTabletOrMobile2?-0:-0,
-          marginTop: -9,
-          backgroundColor: 'black',
-        }}
-        railStyle={{ backgroundColor: 'purple', height: 10 }}
-      />
+    
        {/* Text Field for input */}
        <TextField
   label="Stake Amount"
@@ -933,8 +911,6 @@ setValues({ ...values, [prop]:event.target.value });
   }}
 />
       
- <Typography style={{ textShadow: "0px  0px  7px  #FFD700",fontSize:isTabletOrMobile2?12:13 ,width:200,color:"white",fontFamily:"orbitron",textAlign:'center'}} key={"33321"} color="#041836" variant="h1" weight="700">{Math.round(parseFloat(ethers.formatEther(dataBalance??0)))+` $COOT`}</Typography>
-
       </Stack>
 
       
