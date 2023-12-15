@@ -500,10 +500,10 @@ setValues({ ...values, [prop]:event.target.value });
   return ( <div
     key={'112'}
         style={{
-          backgroundImage: `url(${"https://bafybeierqik32tmxcn4l2i3xjauvtivhcbe32sbbddsfd2xf6mvomp2nty.ipfs.nftstorage.link/cootbrewBG.png"})`,
+         // backgroundImage: `url(${"https://bafybeierqik32tmxcn4l2i3xjauvtivhcbe32sbbddsfd2xf6mvomp2nty.ipfs.nftstorage.link/cootbrewBG.png"})`,
           backgroundSize: 'cover',
           backgroundRepeat: 'no-repeat',
-          backgroundColor:"#0E0C1D",
+          backgroundColor:"#6290BB",
           flexDirection:"column",
           backgroundPosition: 'center',
           width: isTabletOrMobile2?'100vw':'100vw',
@@ -521,7 +521,7 @@ setValues({ ...values, [prop]:event.target.value });
       
 
     <TypeAnimation
-							 sequence={[ 'COOT BREW ', 
+							 sequence={[ 'Please Unstake from this Contract', 
 							 ]}
 							 wrapper="div"
 							 cursor={false}
@@ -530,7 +530,7 @@ setValues({ ...values, [prop]:event.target.value });
                 
 <TypeAnimation
           sequence={[
-          `Alchemy Meets APY.`,
+          `once Unstaked, restake in the New #COOTBREW.`,
         ]}
           wrapper="div"
           cursor={false}
@@ -575,7 +575,7 @@ setValues({ ...values, [prop]:event.target.value });
             className="button-8569"
             role="div"
             style={{
-             backgroundImage:isTabletOrMobile2? `url("https://bafybeihvcsvylwdtxp2ihh5w6ogoqftakmewtzin2oql4dq5eokz6bvrxy.ipfs.nftstorage.link/")`: `url("https://bafybeigadxc2ed3qgpadlehr4vuztsay6bgxros7vxafy2wv676oatb6xy.ipfs.nftstorage.link/new.png")`,
+             //backgroundImage:isTabletOrMobile2? `url("https://bafybeihvcsvylwdtxp2ihh5w6ogoqftakmewtzin2oql4dq5eokz6bvrxy.ipfs.nftstorage.link/")`: `url("https://bafybeigadxc2ed3qgpadlehr4vuztsay6bgxros7vxafy2wv676oatb6xy.ipfs.nftstorage.link/new.png")`,
               backgroundSize: 'cover',
               backgroundRepeat: 'no-repeat',
               backgroundPosition: 'center',

@@ -124,7 +124,7 @@ function StakingCootV2() {
 
 
   const { data :dataAverageStake  }:{data:any} = useContractRead({
-    address: '0xF200fFe1DA954E313b2B8b55f6812A4A3948058f',
+    address: '0xdaB384972B231EBE3105E29e8D6A406b859f05d0',
     abi: COOTSTAKING,
     functionName: 'totalStaked',
   })
@@ -132,42 +132,42 @@ function StakingCootV2() {
   
 
 const { data :dataStakingPercentage,  }:{data:any} = useContractRead({
-  address: '0xF200fFe1DA954E313b2B8b55f6812A4A3948058f',
+  address: '0xdaB384972B231EBE3105E29e8D6A406b859f05d0',
   abi: COOTSTAKING,
   args:[ethAddress],
   functionName: 'totalRewardPercentage',
 })
 	
 const { data :dataStakingBurnedNFT ,  }:{data:any} = useContractRead({
-  address: '0xF200fFe1DA954E313b2B8b55f6812A4A3948058f',
+  address: '0xdaB384972B231EBE3105E29e8D6A406b859f05d0',
   abi: COOTSTAKING,
   args:[ethAddress],
   functionName: 'userBurnedNFT',
 })
 	
 const { data :dataDebug , }:{data:any} = useContractRead({
-  address: '0xF200fFe1DA954E313b2B8b55f6812A4A3948058f',
+  address: '0xdaB384972B231EBE3105E29e8D6A406b859f05d0',
   abi: COOTSTAKING,
   args:[ethAddress],
   functionName: 'debugRewards',
 })
  
 const { data :userTier , }:{data:any} = useContractRead({
-  address: '0xF200fFe1DA954E313b2B8b55f6812A4A3948058f',
+  address: '0xdaB384972B231EBE3105E29e8D6A406b859f05d0',
   abi: COOTSTAKING,
   args:[ethAddress],
   functionName: 'userTier',
 })
 
 const { data :timeTillNextNFTEarned , }:{data:any} = useContractRead({
-  address: '0xF200fFe1DA954E313b2B8b55f6812A4A3948058f',
+  address: '0xdaB384972B231EBE3105E29e8D6A406b859f05d0',
   abi: COOTSTAKING,
   args:[ethAddress],
   functionName: 'timeTillNextNFTEarned',
 })
 
 const { data :totalNFTsBurned , }:{data:any} = useContractRead({
-  address: '0xF200fFe1DA954E313b2B8b55f6812A4A3948058f',
+  address: '0xdaB384972B231EBE3105E29e8D6A406b859f05d0',
   abi: COOTSTAKING,
   args:[ethAddress],
   functionName: 'totalNFTSBurned',
@@ -178,14 +178,14 @@ const { data :totalNFTsBurned , }:{data:any} = useContractRead({
 
 
 const { data :dataGetUserMintedTokenIds,  }:{data:any} = useContractRead({
-  address: '0xF200fFe1DA954E313b2B8b55f6812A4A3948058f',
+  address: '0xdaB384972B231EBE3105E29e8D6A406b859f05d0',
   abi: COOTSTAKING,
   args:[ethAddress],
   functionName: 'getUserMintedTokenIds',
 })
 
 const { data :dataStakingEarned,  }:{data:any} = useContractRead({
-  address: '0xF200fFe1DA954E313b2B8b55f6812A4A3948058f',
+  address: '0xdaB384972B231EBE3105E29e8D6A406b859f05d0',
   abi: COOTSTAKING,
   args:[ethAddress],
 watch:true,
@@ -194,7 +194,7 @@ watch:true,
 	
 
 const { data :dataStaking,  }:{data:any} = useContractRead({
-  address: '0xF200fFe1DA954E313b2B8b55f6812A4A3948058f',
+  address: '0xdaB384972B231EBE3105E29e8D6A406b859f05d0',
   abi: COOTSTAKING,
   args:[ethAddress],
 watch:true,
@@ -202,7 +202,7 @@ watch:true,
 })
 	
 const { data :dataStakingBalance,  }:{data:any} = useContractRead({
-  address: '0xF200fFe1DA954E313b2B8b55f6812A4A3948058f',
+  address: '0xdaB384972B231EBE3105E29e8D6A406b859f05d0',
   abi: COOTSTAKING,
   args:[ethAddress],
   functionName: 'balances',
@@ -211,7 +211,7 @@ const { data :dataStakingBalance,  }:{data:any} = useContractRead({
   const [nfts,setNFTs]=useState<any[]>([])
 
 const { data :dataNFTs, refetch }:{data:any,refetch:any} = useContractRead({
-  address: '0xF200fFe1DA954E313b2B8b55f6812A4A3948058f',
+  address: '0xdaB384972B231EBE3105E29e8D6A406b859f05d0',
   abi: COOTSTAKING,
   args:[nftURI],
   onSuccess:async (data:any)=>{
@@ -254,7 +254,7 @@ const { data :dataBalance,  }:{data:any} = useContractRead({
   const isTabletOrMobile2 = useMediaQuery({ query: '(max-width: 550px)' })
 
   const { write:withdrawStaking } = useContractWrite({
-    address: '0xF200fFe1DA954E313b2B8b55f6812A4A3948058f',
+    address: '0xdaB384972B231EBE3105E29e8D6A406b859f05d0',
     abi: COOTSTAKING,
     onSuccess:()=>{
       setLoading(false)
@@ -278,7 +278,7 @@ const { data :dataBalance,  }:{data:any} = useContractRead({
       setLoading(false)
     },
     functionName: 'approve',
-    args:['0xF200fFe1DA954E313b2B8b55f6812A4A3948058f',parseFloat(ethers.parseUnits(stakeAmount.toString(),"ether").toString())]
+    args:['0xdaB384972B231EBE3105E29e8D6A406b859f05d0',parseFloat(ethers.parseUnits(stakeAmount.toString(),"ether").toString())]
   })
 
   const responsive = {
@@ -303,7 +303,7 @@ const { data :dataBalance,  }:{data:any} = useContractRead({
 
 
   const { write:depositStaking } = useContractWrite({
-    address: '0xF200fFe1DA954E313b2B8b55f6812A4A3948058f',
+    address: '0xdaB384972B231EBE3105E29e8D6A406b859f05d0',
     abi: COOTSTAKING,
     onSuccess:()=>{
       setLoading(false)
@@ -318,7 +318,7 @@ const { data :dataBalance,  }:{data:any} = useContractRead({
   })
 
   const { write:burnStaking } = useContractWrite({
-    address: '0xF200fFe1DA954E313b2B8b55f6812A4A3948058f',
+    address: '0xdaB384972B231EBE3105E29e8D6A406b859f05d0',
     abi: COOTSTAKING,
     args:[[values.amountStake]],
     onSuccess:()=>{
@@ -345,7 +345,7 @@ useEffect(()=>{
   main()
 },[dataGetUserMintedTokenIds])
   const { write:claimStaking } = useContractWrite({
-    address: '0xF200fFe1DA954E313b2B8b55f6812A4A3948058f',
+    address: '0xdaB384972B231EBE3105E29e8D6A406b859f05d0',
     abi: COOTSTAKING,
     onSuccess:()=>{
       setLoading(false)
@@ -362,7 +362,7 @@ useEffect(()=>{
     address: '0xe4671844Fcb3cA9A80A1224B6f9A0A6c2Ba2a7d5',
     abi: DKMTABI,
     watch:true,
-    args:[ethAddress,"0xF200fFe1DA954E313b2B8b55f6812A4A3948058f"],
+    args:[ethAddress,"0xdaB384972B231EBE3105E29e8D6A406b859f05d0"],
     functionName: 'allowance',
   })
 
@@ -521,7 +521,7 @@ setValues({ ...values, [prop]:event.target.value });
       
 
     <TypeAnimation
-							 sequence={[ 'COOT BREW ', 
+							 sequence={[ 'Magical COOT BREW ', 
 							 ]}
 							 wrapper="div"
 							 cursor={false}
@@ -530,7 +530,7 @@ setValues({ ...values, [prop]:event.target.value });
                 
 <TypeAnimation
           sequence={[
-          `Alchemy Meets APY.`,
+          `Where Alchemy Meets APY`,
         ]}
           wrapper="div"
           cursor={false}
@@ -581,7 +581,7 @@ setValues({ ...values, [prop]:event.target.value });
               backgroundPosition: 'center',
               width: isTabletOrMobile2?"70%":"80%",
               flexDirection:"row",
-              height: isTabletOrMobile2?"100vh":"100vh",
+              height: isTabletOrMobile2?"110vh":"110vh",
               paddingTop:isTabletOrMobile2?"10%":"5%",           
                  marginTop:"0%",
 

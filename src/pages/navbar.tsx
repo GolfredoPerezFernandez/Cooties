@@ -13,7 +13,7 @@ function Navbar({ Component, pageProps }: AppProps) {
     
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
-  const pages = chain?.id.toString()==="14"?[{text:'HOME',href:"/"},{text:'DOCS',href:"https://docs.cootiedocs.xyz/"}, {text:'$COOT',href:"/stakingcootcash"},  {text:'SWAP',href:"/swap"}]:[{text:'HOME',href:"/"},{text:'DOCS',href:"https://docs.cootiedocs.xyz/"},{text:'Cooties',href:"/stakingv1"},{text:'Cooties V2',href:"/stakingv2"}, {text:'$COOT',href:"/stakingcoot"},{text:'$COOTBREW',href:"/stakingcootv2"}, {text:'SWAP',href:"/swap"}];
+  const pages = chain?.id.toString()==="14"?[{text:'HOME',href:"/"},{text:'DOCS',href:"https://docs.cootiedocs.xyz/"}, {text:'$COOT',href:"/stakingcootcash"},  {text:'SWAP',href:"/swap"}]:[{text:'HOME',href:"/"},{text:'DOCS',href:"https://docs.cootiedocs.xyz/"},{text:'Cooties',href:"/stakingv1"},{text:'Cooties V2',href:"/stakingv2"}, {text:'$COOT',href:"/stakingcoot"},{text:'$UnstakeCOOTEBREW',href:"/cootbrew"}, {text:'$COOTBREW',href:"/stakingcootv2"}, {text:'SWAP',href:"/swap"}];
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
