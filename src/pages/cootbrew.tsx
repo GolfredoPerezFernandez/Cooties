@@ -1005,60 +1005,7 @@ setValues({ ...values, [prop]:event.target.value });
     />
     }
   
-    {dataStakingPercentage? <TypeAnimation
-      sequence={["Total Reward Percentage "+Math.round(dataStakingPercentage.toString()).toString(),
-   ]}
-      wrapper="div"
-      cursor={false}
-
-      style={{marginTop:10,textShadow: "0px  0px  7px  #FFFFFF",fontSize:isTabletOrMobile2?18:20 ,width:"100%",color:"yellow",fontFamily:"orbitron",textAlign:'center'}}
-    />:
- <TypeAnimation
- sequence={["Total Reward Percentage "+Math.round(0).toString(),
-]}
- wrapper="div"
- cursor={false}
-
- style={{marginTop:10,textShadow: "0px  0px  7px  #FFFFFF",fontSize:isTabletOrMobile2?18:20 ,width:"100%",color:"yellow",fontFamily:"orbitron",textAlign:'center'}}
-/>
-    }
- 
-    {dataStakingBurnedNFT? <TypeAnimation
-      sequence={["Burned NFT "+Math.round(dataStakingBurnedNFT.toString()).toString(),
-   ]}
-      wrapper="div"
-      cursor={false}
-
-      style={{marginTop:10,textShadow: "0px  0px  7px  #FFFFFF",fontSize:isTabletOrMobile2?18:20 ,width:"100%",color:"yellow",fontFamily:"orbitron",textAlign:'center'}}
-    />
-    :
-    <TypeAnimation
-    sequence={["Burned NFT "+Math.round(0).toString(),
- ]}
-    wrapper="div"
-    cursor={false}
-
-    style={{marginTop:10,textShadow: "0px  0px  7px  #FFFFFF",fontSize:isTabletOrMobile2?18:20 ,width:"100%",color:"yellow",fontFamily:"orbitron",textAlign:'center'}}
-  />
-  
-    }
- {dataDebug[2]?<TypeAnimation
-      sequence={["Total Percentage "+dataDebug[2].toString()+"%",
-   ]}
-      wrapper="div"
-      cursor={false}
-
-      style={{marginTop:10,textShadow: "0px  0px  7px  #FFFFFF",fontSize:isTabletOrMobile2?18:20 ,width:"100%",color:"yellow",fontFamily:"orbitron",textAlign:'center'}}
-    /> :
-  <TypeAnimation
-      sequence={["Percentage "+"0"+"%",
-   ]}
-      wrapper="div"
-      cursor={false}
-
-      style={{marginTop:10,textShadow: "0px  0px  7px  #FFFFFF",fontSize:isTabletOrMobile2?18:20 ,width:"100%",color:"yellow",fontFamily:"orbitron",textAlign:'center'}}
-    /> 
- }
+   
         <Typography style={{ marginTop:20,textShadow: "0px  0px  7px  #FFD700",fontSize:isTabletOrMobile2?18:20 ,width:"100%",color:"white",fontFamily:"orbitron",textAlign:'center'}} key={"33321"} color="#041836" variant="h1" weight="700">UNSTAKE</Typography>
        
        
@@ -1110,7 +1057,7 @@ setValues({ ...values, [prop]:event.target.value });
   }}
   style={{
     marginTop: '20px',
-    width: '200px',
+    width: '800px',
     borderRadius: '10px', // Border radius for rounded corners
   }}
 />
@@ -1126,7 +1073,7 @@ setValues({ ...values, [prop]:event.target.value });
        {loading?       <CircularProgress color="secondary" />
 :
 
-<button  onClick={handleWithdraw} style={{marginBottom:"10px",marginTop:"20px",textShadow: "0px  0px  7px  #FFD700",marginRight:15,width:200,marginLeft:15}}  className="button-855" role="button">
+<button  onClick={handleWithdraw} style={{marginBottom:"10px",marginTop:"5px",textShadow: "0px  0px  7px  #FFD700",marginRight:15,width:200,marginLeft:15}}  className="button-855" role="button">
         WITHDRAW COOT
         </button>}
 
